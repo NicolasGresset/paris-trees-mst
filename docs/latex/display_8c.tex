@@ -1,0 +1,393 @@
+\hypertarget{display_8c}{}\doxysection{src/display.c File Reference}
+\label{display_8c}\index{src/display.c@{src/display.c}}
+{\ttfamily \#include \char`\"{}../include/display.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../include/struct.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$tps.\+h$>$}\newline
+Include dependency graph for display.\+c\+:
+% FIG 0
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{display_8c_aed89bd71aee8be823e8a20ec4e093c1e}{H\+E\+I\+G\+HT}}~800
+\item 
+\#define \mbox{\hyperlink{display_8c_a241aeeb764887ae5e3de58b98f04b16d}{W\+I\+D\+TH}}~800
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{display_8c_aa8ca658ab31a0f8c373547a7bc611a87}{info\+Display}} (void)
+\item 
+void \mbox{\hyperlink{display_8c_abd00a978a929f7fbddb92e23286273d3}{scale\+Tree}} (\mbox{\hyperlink{structtree}{tree}} $\ast$forest, size\+\_\+t size, int zoom, int left, int up)
+\begin{DoxyCompactList}\small\item\em Effectue une transformation affine des coordonnées des arbres de la liste forest de taille size, de manière à recadrer les arbres dans la fenêtre de taille W\+I\+D\+T\+H$\ast$\+H\+E\+I\+G\+HT, et à prendre compte du zoom et du déplacement avec les flèches. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{display_8c_a6d1822b75d0e0ba6328174a5d84cb875}{display\+Trees}} (\mbox{\hyperlink{structedge}{edge}} $\ast$edge\+List, size\+\_\+t size, \mbox{\hyperlink{structtree}{tree}} $\ast$forest)
+\begin{DoxyCompactList}\small\item\em Une fonction qui permet d\textquotesingle{}afficher l\textquotesingle{}arbre recouvrant minimal. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{display_8c_a4eea0232034a5a41300e04edcc853f96}{minX}} (\mbox{\hyperlink{structtree}{tree}} $\ast$forest, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Renvoie le champ geoloc.\+x minimum de la liste forest de taille size. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{display_8c_ab65f047e1be48c7ae41438104c94cd08}{minY}} (\mbox{\hyperlink{structtree}{tree}} $\ast$forest, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Renvoie le champ geoloc.\+y minimum de la liste forest de taille size. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{display_8c_ab52bd6692aaad6ea9b396de78236e850}{maxX}} (\mbox{\hyperlink{structtree}{tree}} $\ast$forest, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Renvoie le champ geoloc.\+x maximum de la liste forest de taille size. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{display_8c_a040ffc050c09814a96186ba85cbc87d4}{maxY}} (\mbox{\hyperlink{structtree}{tree}} $\ast$forest, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Renvoie le champ geoloc.\+y maximum de la liste forest de taille size. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{display_8c_ab7d67ad0a7206fc20171512033d3fb2e}{get\+Extremum}} (\mbox{\hyperlink{structtree}{tree}} $\ast$forest, size\+\_\+t size, double $\ast$minimumX, double $\ast$minimumY, double $\ast$maximumX, double $\ast$maximumY)
+\begin{DoxyCompactList}\small\item\em Get the Extremum object Ecrit à l\textquotesingle{}emplacement des pointeurs passés en paramètre les extremums des champs geoloc.\+x et geoloc.\+y de la forêt d\textquotesingle{}arbre forest de taille size. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{display_8c_a550e90e7a5a56b5c11d17a005ac43dee}{loading\+Bar}} (int current, int total, clock\+\_\+t delta)
+\begin{DoxyCompactList}\small\item\em Une fonction permettant de visualiser l\textquotesingle{}avancement d\textquotesingle{}un processus. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{display_8c_aed89bd71aee8be823e8a20ec4e093c1e}\label{display_8c_aed89bd71aee8be823e8a20ec4e093c1e}} 
+\index{display.c@{display.c}!HEIGHT@{HEIGHT}}
+\index{HEIGHT@{HEIGHT}!display.c@{display.c}}
+\doxysubsubsection{\texorpdfstring{HEIGHT}{HEIGHT}}
+{\footnotesize\ttfamily \#define H\+E\+I\+G\+HT~800}
+
+\mbox{\Hypertarget{display_8c_a241aeeb764887ae5e3de58b98f04b16d}\label{display_8c_a241aeeb764887ae5e3de58b98f04b16d}} 
+\index{display.c@{display.c}!WIDTH@{WIDTH}}
+\index{WIDTH@{WIDTH}!display.c@{display.c}}
+\doxysubsubsection{\texorpdfstring{WIDTH}{WIDTH}}
+{\footnotesize\ttfamily \#define W\+I\+D\+TH~800}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{display_8c_a6d1822b75d0e0ba6328174a5d84cb875}\label{display_8c_a6d1822b75d0e0ba6328174a5d84cb875}} 
+\index{display.c@{display.c}!displayTrees@{displayTrees}}
+\index{displayTrees@{displayTrees}!display.c@{display.c}}
+\doxysubsubsection{\texorpdfstring{displayTrees()}{displayTrees()}}
+{\footnotesize\ttfamily void display\+Trees (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structedge}{edge}} $\ast$}]{liste\+Aretes,  }\item[{size\+\_\+t}]{size,  }\item[{\mbox{\hyperlink{structtree}{tree}} $\ast$}]{structure }\end{DoxyParamCaption})}
+
+
+
+Une fonction qui permet d\textquotesingle{}afficher l\textquotesingle{}arbre recouvrant minimal. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em liste\+Aretes} & la liste des aretes de l\textquotesingle{}arbre \\
+\hline
+{\em size} & la taille du graphe (la structure) \\
+\hline
+{\em structure} & la structure de l\textquotesingle{}arbre de taille size + 1 \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{45                                                             \{}
+\DoxyCodeLine{46     \mbox{\hyperlink{display_8c_aa8ca658ab31a0f8c373547a7bc611a87}{infoDisplay}}();}
+\DoxyCodeLine{47     }
+\DoxyCodeLine{48     size-\/-\/;}
+\DoxyCodeLine{49     \textcolor{keywordtype}{double} x1, x2, y1, y2;}
+\DoxyCodeLine{50     tps\_createWindow(\textcolor{stringliteral}{"Arbres de Paris"}, \mbox{\hyperlink{display_8c_a241aeeb764887ae5e3de58b98f04b16d}{WIDTH}}, \mbox{\hyperlink{display_8c_aed89bd71aee8be823e8a20ec4e093c1e}{HEIGHT}});}
+\DoxyCodeLine{51     tps\_background(255, 255, 255);}
+\DoxyCodeLine{52     tps\_setColor(0, 0, 0);}
+\DoxyCodeLine{53     \mbox{\hyperlink{display_8c_abd00a978a929f7fbddb92e23286273d3}{scaleTree}}(forest, size + 1,0,0,0);}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i<size; i++)\{}
+\DoxyCodeLine{56         x1 = edgeList[i].\mbox{\hyperlink{structedge_a691a39efbffc566e6d86d01c4858f54a}{tree1}}-\/>\mbox{\hyperlink{structtree_a298f78a3e0e132f7b8635cadc96727c7}{geoloc}}.\mbox{\hyperlink{structposition_a0ab4d1279ca59c4e71d543144a4ea98f}{x}};}
+\DoxyCodeLine{57         y1 = edgeList[i].\mbox{\hyperlink{structedge_a691a39efbffc566e6d86d01c4858f54a}{tree1}}-\/>\mbox{\hyperlink{structtree_a298f78a3e0e132f7b8635cadc96727c7}{geoloc}}.\mbox{\hyperlink{structposition_a4c8f3776329f75007608235aae679e8a}{y}};}
+\DoxyCodeLine{58         x2 = edgeList[i].\mbox{\hyperlink{structedge_ab7d029eeb2b522e8f81373450c476741}{tree2}}-\/>\mbox{\hyperlink{structtree_a298f78a3e0e132f7b8635cadc96727c7}{geoloc}}.\mbox{\hyperlink{structposition_a0ab4d1279ca59c4e71d543144a4ea98f}{x}};}
+\DoxyCodeLine{59         y2 = edgeList[i].\mbox{\hyperlink{structedge_ab7d029eeb2b522e8f81373450c476741}{tree2}}-\/>\mbox{\hyperlink{structtree_a298f78a3e0e132f7b8635cadc96727c7}{geoloc}}.\mbox{\hyperlink{structposition_a4c8f3776329f75007608235aae679e8a}{y}};}
+\DoxyCodeLine{60         tps\_drawLine(x1, y1, x2, y2);}
+\DoxyCodeLine{61     \}}
+\DoxyCodeLine{62     }
+\DoxyCodeLine{63     \textcolor{keywordtype}{int} zoom=0;}
+\DoxyCodeLine{64     \textcolor{keywordtype}{int} left=0;}
+\DoxyCodeLine{65     \textcolor{keywordtype}{int} up=0;}
+\DoxyCodeLine{66     \textcolor{keywordflow}{while}(tps\_isRunning())\{}
+\DoxyCodeLine{67         }
+\DoxyCodeLine{68         \textcolor{keywordflow}{if}(tps\_getKeyPressed() == SDLK\_p ) \{zoom++;\}}
+\DoxyCodeLine{69         \textcolor{keywordflow}{if}(tps\_getKeyPressed() == SDLK\_m ) \{zoom-\/-\/;\}}
+\DoxyCodeLine{70 }
+\DoxyCodeLine{71         \textcolor{keywordflow}{if}(tps\_getKeyPressed() == SDLK\_LEFT ) \{left++;\}}
+\DoxyCodeLine{72         \textcolor{keywordflow}{if}(tps\_getKeyPressed() == SDLK\_RIGHT ) \{left-\/-\/;\}}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74         \textcolor{keywordflow}{if}(tps\_getKeyPressed() == SDLK\_UP ) \{up++;\}}
+\DoxyCodeLine{75         \textcolor{keywordflow}{if}(tps\_getKeyPressed() == SDLK\_DOWN ) \{up-\/-\/;\}}
+\DoxyCodeLine{76         }
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78         tps\_background(255, 255, 255);}
+\DoxyCodeLine{79         \mbox{\hyperlink{display_8c_abd00a978a929f7fbddb92e23286273d3}{scaleTree}}(forest, size + 1,zoom,left,up);}
+\DoxyCodeLine{80         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i<size; i++)\{}
+\DoxyCodeLine{81             x1 = edgeList[i].\mbox{\hyperlink{structedge_a691a39efbffc566e6d86d01c4858f54a}{tree1}}-\/>\mbox{\hyperlink{structtree_a298f78a3e0e132f7b8635cadc96727c7}{geoloc}}.\mbox{\hyperlink{structposition_a0ab4d1279ca59c4e71d543144a4ea98f}{x}};}
+\DoxyCodeLine{82             y1 = edgeList[i].\mbox{\hyperlink{structedge_a691a39efbffc566e6d86d01c4858f54a}{tree1}}-\/>\mbox{\hyperlink{structtree_a298f78a3e0e132f7b8635cadc96727c7}{geoloc}}.\mbox{\hyperlink{structposition_a4c8f3776329f75007608235aae679e8a}{y}};}
+\DoxyCodeLine{83             x2 = edgeList[i].\mbox{\hyperlink{structedge_ab7d029eeb2b522e8f81373450c476741}{tree2}}-\/>\mbox{\hyperlink{structtree_a298f78a3e0e132f7b8635cadc96727c7}{geoloc}}.\mbox{\hyperlink{structposition_a0ab4d1279ca59c4e71d543144a4ea98f}{x}};}
+\DoxyCodeLine{84             y2 = edgeList[i].\mbox{\hyperlink{structedge_ab7d029eeb2b522e8f81373450c476741}{tree2}}-\/>\mbox{\hyperlink{structtree_a298f78a3e0e132f7b8635cadc96727c7}{geoloc}}.\mbox{\hyperlink{structposition_a4c8f3776329f75007608235aae679e8a}{y}};}
+\DoxyCodeLine{85             tps\_drawLine(x1, y1, x2, y2);}
+\DoxyCodeLine{86         \}}
+\DoxyCodeLine{87         }
+\DoxyCodeLine{88         tps\_render();}
+\DoxyCodeLine{89     \}    }
+\DoxyCodeLine{90     tps\_closeWindow();}
+\DoxyCodeLine{91     \textcolor{keywordflow}{return};}
+\DoxyCodeLine{92 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{display_8c_ab7d67ad0a7206fc20171512033d3fb2e}\label{display_8c_ab7d67ad0a7206fc20171512033d3fb2e}} 
+\index{display.c@{display.c}!getExtremum@{getExtremum}}
+\index{getExtremum@{getExtremum}!display.c@{display.c}}
+\doxysubsubsection{\texorpdfstring{getExtremum()}{getExtremum()}}
+{\footnotesize\ttfamily void get\+Extremum (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structtree}{tree}} $\ast$}]{forest,  }\item[{size\+\_\+t}]{size,  }\item[{double $\ast$}]{minimumX,  }\item[{double $\ast$}]{minimumY,  }\item[{double $\ast$}]{maximumX,  }\item[{double $\ast$}]{maximumY }\end{DoxyParamCaption})}
+
+
+
+Get the Extremum object Ecrit à l\textquotesingle{}emplacement des pointeurs passés en paramètre les extremums des champs geoloc.\+x et geoloc.\+y de la forêt d\textquotesingle{}arbre forest de taille size. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em forest} & \\
+\hline
+{\em size} & \\
+\hline
+{\em minimumX} & \\
+\hline
+{\em minimumY} & \\
+\hline
+{\em maximumX} & \\
+\hline
+{\em maximumY} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{171                                                      \{}
+\DoxyCodeLine{172     *minimumX = \mbox{\hyperlink{display_8c_a4eea0232034a5a41300e04edcc853f96}{minX}}(forest, size);}
+\DoxyCodeLine{173     *minimumY = \mbox{\hyperlink{display_8c_ab65f047e1be48c7ae41438104c94cd08}{minY}}(forest, size);}
+\DoxyCodeLine{174     *maximumX = \mbox{\hyperlink{display_8c_ab52bd6692aaad6ea9b396de78236e850}{maxX}}(forest, size);}
+\DoxyCodeLine{175     *maximumY = \mbox{\hyperlink{display_8c_a040ffc050c09814a96186ba85cbc87d4}{maxY}}(forest, size);}
+\DoxyCodeLine{176 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{display_8c_aa8ca658ab31a0f8c373547a7bc611a87}\label{display_8c_aa8ca658ab31a0f8c373547a7bc611a87}} 
+\index{display.c@{display.c}!infoDisplay@{infoDisplay}}
+\index{infoDisplay@{infoDisplay}!display.c@{display.c}}
+\doxysubsubsection{\texorpdfstring{infoDisplay()}{infoDisplay()}}
+{\footnotesize\ttfamily void info\+Display (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{9                       \{}
+\DoxyCodeLine{10     printf(\textcolor{stringliteral}{"**********************************************\(\backslash\)n"});}
+\DoxyCodeLine{11     printf(\textcolor{stringliteral}{"Pour zoomer appuyer sur p.\(\backslash\)n"});}
+\DoxyCodeLine{12     printf(\textcolor{stringliteral}{"Pour dézoomer appuyer sur m.\(\backslash\)n"});}
+\DoxyCodeLine{13     printf(\textcolor{stringliteral}{"Pour se déplacer utiliser les flèches.\(\backslash\)n"});}
+\DoxyCodeLine{14     printf(\textcolor{stringliteral}{"\(\backslash\)n**********************************************\(\backslash\)n"});}
+\DoxyCodeLine{15 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{display_8c_a550e90e7a5a56b5c11d17a005ac43dee}\label{display_8c_a550e90e7a5a56b5c11d17a005ac43dee}} 
+\index{display.c@{display.c}!loadingBar@{loadingBar}}
+\index{loadingBar@{loadingBar}!display.c@{display.c}}
+\doxysubsubsection{\texorpdfstring{loadingBar()}{loadingBar()}}
+{\footnotesize\ttfamily void loading\+Bar (\begin{DoxyParamCaption}\item[{int}]{current,  }\item[{int}]{total,  }\item[{clock\+\_\+t}]{delta }\end{DoxyParamCaption})}
+
+
+
+Une fonction permettant de visualiser l\textquotesingle{}avancement d\textquotesingle{}un processus. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em current} & la quantité actuelle d\textquotesingle{}avancement du processus \\
+\hline
+{\em total} & la quantité totale de référencee \\
+\hline
+{\em delta} & le nombre de millisecondes écoulées depuis le début du programme \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{178                                                       \{}
+\DoxyCodeLine{179     \textcolor{keyword}{static} \textcolor{keywordtype}{double} previoustime = 0;}
+\DoxyCodeLine{180     \textcolor{keywordtype}{double} newtime;}
+\DoxyCodeLine{181     \textcolor{keywordflow}{if} (current != total \&\& current\%100 == 0)\{}
+\DoxyCodeLine{182         printf(\textcolor{stringliteral}{"\%d/\%d -\/-\/ "}, current, total);}
+\DoxyCodeLine{183         printf(\textcolor{stringliteral}{"Time since beginning : \%fs -\/-\/ "}, ((\textcolor{keywordtype}{double})delta)/CLOCKS\_PER\_SEC);}
+\DoxyCodeLine{184         newtime = 0.5*previoustime + 0.5*(((double)(delta * ((\textcolor{keywordtype}{float})total/(\textcolor{keywordtype}{float})current)))/CLOCKS\_PER\_SEC);}
+\DoxyCodeLine{185         printf(\textcolor{stringliteral}{"Time left estimated : \%fs\(\backslash\)r"}, newtime -\/ ((\textcolor{keywordtype}{double})delta)/CLOCKS\_PER\_SEC);}
+\DoxyCodeLine{186         previoustime = newtime;}
+\DoxyCodeLine{187     \}}
+\DoxyCodeLine{188 }
+\DoxyCodeLine{189     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(current == total)\{}
+\DoxyCodeLine{190         printf(\textcolor{stringliteral}{"\%d/\%d -\/-\/ "}, current, total);}
+\DoxyCodeLine{191         printf(\textcolor{stringliteral}{"Time since beginning : \%fs -\/-\/ "}, ((\textcolor{keywordtype}{double})delta)/CLOCKS\_PER\_SEC);}
+\DoxyCodeLine{192         printf(\textcolor{stringliteral}{"Time left estimated : 0\(\backslash\)n"});}
+\DoxyCodeLine{193     \}}
+\DoxyCodeLine{194 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{display_8c_ab52bd6692aaad6ea9b396de78236e850}\label{display_8c_ab52bd6692aaad6ea9b396de78236e850}} 
+\index{display.c@{display.c}!maxX@{maxX}}
+\index{maxX@{maxX}!display.c@{display.c}}
+\doxysubsubsection{\texorpdfstring{maxX()}{maxX()}}
+{\footnotesize\ttfamily double maxX (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structtree}{tree}} $\ast$}]{forest,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+
+
+Renvoie le champ geoloc.\+x maximum de la liste forest de taille size. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em forest} & \\
+\hline
+{\em size} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{140                                       \{}
+\DoxyCodeLine{141     \textcolor{keywordtype}{size\_t} i = 0;}
+\DoxyCodeLine{142     \textcolor{keywordtype}{double} distMax = forest[i].\mbox{\hyperlink{structtree_a298f78a3e0e132f7b8635cadc96727c7}{geoloc}}.\mbox{\hyperlink{structposition_a0ab4d1279ca59c4e71d543144a4ea98f}{x}};}
+\DoxyCodeLine{143 }
+\DoxyCodeLine{144     \textcolor{keywordflow}{for} (i = 1; i<size; i++)\{}
+\DoxyCodeLine{145         \textcolor{keywordflow}{if} (forest[i].geoloc.x > distMax) distMax = forest[i].\mbox{\hyperlink{structtree_a298f78a3e0e132f7b8635cadc96727c7}{geoloc}}.\mbox{\hyperlink{structposition_a0ab4d1279ca59c4e71d543144a4ea98f}{x}};}
+\DoxyCodeLine{146     \}}
+\DoxyCodeLine{147 }
+\DoxyCodeLine{148     \textcolor{keywordflow}{return} distMax;}
+\DoxyCodeLine{149 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{display_8c_a040ffc050c09814a96186ba85cbc87d4}\label{display_8c_a040ffc050c09814a96186ba85cbc87d4}} 
+\index{display.c@{display.c}!maxY@{maxY}}
+\index{maxY@{maxY}!display.c@{display.c}}
+\doxysubsubsection{\texorpdfstring{maxY()}{maxY()}}
+{\footnotesize\ttfamily double maxY (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structtree}{tree}} $\ast$}]{forest,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+
+
+Renvoie le champ geoloc.\+y maximum de la liste forest de taille size. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em forest} & \\
+\hline
+{\em size} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{158                                       \{}
+\DoxyCodeLine{159     \textcolor{keywordtype}{size\_t} i = 0;}
+\DoxyCodeLine{160     \textcolor{keywordtype}{double} distMax = forest[i].\mbox{\hyperlink{structtree_a298f78a3e0e132f7b8635cadc96727c7}{geoloc}}.\mbox{\hyperlink{structposition_a4c8f3776329f75007608235aae679e8a}{y}};}
+\DoxyCodeLine{161 }
+\DoxyCodeLine{162     \textcolor{keywordflow}{for} (i = 1; i<size; i++)\{}
+\DoxyCodeLine{163         \textcolor{keywordflow}{if} (forest[i].geoloc.y > distMax) distMax = forest[i].\mbox{\hyperlink{structtree_a298f78a3e0e132f7b8635cadc96727c7}{geoloc}}.\mbox{\hyperlink{structposition_a4c8f3776329f75007608235aae679e8a}{y}};}
+\DoxyCodeLine{164     \}}
+\DoxyCodeLine{165 }
+\DoxyCodeLine{166     \textcolor{keywordflow}{return} distMax;}
+\DoxyCodeLine{167 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{display_8c_a4eea0232034a5a41300e04edcc853f96}\label{display_8c_a4eea0232034a5a41300e04edcc853f96}} 
+\index{display.c@{display.c}!minX@{minX}}
+\index{minX@{minX}!display.c@{display.c}}
+\doxysubsubsection{\texorpdfstring{minX()}{minX()}}
+{\footnotesize\ttfamily double minX (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structtree}{tree}} $\ast$}]{forest,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+
+
+Renvoie le champ geoloc.\+x minimum de la liste forest de taille size. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em forest} & \\
+\hline
+{\em size} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{104                                       \{}
+\DoxyCodeLine{105     \textcolor{keywordtype}{size\_t} i = 0;}
+\DoxyCodeLine{106     \textcolor{keywordtype}{double} distMin = forest[i].\mbox{\hyperlink{structtree_a298f78a3e0e132f7b8635cadc96727c7}{geoloc}}.\mbox{\hyperlink{structposition_a0ab4d1279ca59c4e71d543144a4ea98f}{x}};}
+\DoxyCodeLine{107 }
+\DoxyCodeLine{108     \textcolor{keywordflow}{for} (i = 1; i<size; i++)\{}
+\DoxyCodeLine{109         \textcolor{keywordflow}{if} (forest[i].geoloc.x < distMin) distMin = forest[i].\mbox{\hyperlink{structtree_a298f78a3e0e132f7b8635cadc96727c7}{geoloc}}.\mbox{\hyperlink{structposition_a0ab4d1279ca59c4e71d543144a4ea98f}{x}};}
+\DoxyCodeLine{110     \}}
+\DoxyCodeLine{111 }
+\DoxyCodeLine{112     \textcolor{keywordflow}{return} distMin;}
+\DoxyCodeLine{113 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{display_8c_ab65f047e1be48c7ae41438104c94cd08}\label{display_8c_ab65f047e1be48c7ae41438104c94cd08}} 
+\index{display.c@{display.c}!minY@{minY}}
+\index{minY@{minY}!display.c@{display.c}}
+\doxysubsubsection{\texorpdfstring{minY()}{minY()}}
+{\footnotesize\ttfamily double minY (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structtree}{tree}} $\ast$}]{forest,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+
+
+Renvoie le champ geoloc.\+y minimum de la liste forest de taille size. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em forest} & \\
+\hline
+{\em size} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{122                                       \{}
+\DoxyCodeLine{123     \textcolor{keywordtype}{size\_t} i = 0;}
+\DoxyCodeLine{124     \textcolor{keywordtype}{double} distMin = forest[i].\mbox{\hyperlink{structtree_a298f78a3e0e132f7b8635cadc96727c7}{geoloc}}.\mbox{\hyperlink{structposition_a4c8f3776329f75007608235aae679e8a}{y}};}
+\DoxyCodeLine{125 }
+\DoxyCodeLine{126     \textcolor{keywordflow}{for} (i = 1; i<size; i++)\{}
+\DoxyCodeLine{127         \textcolor{keywordflow}{if} (forest[i].geoloc.y < distMin) distMin = forest[i].\mbox{\hyperlink{structtree_a298f78a3e0e132f7b8635cadc96727c7}{geoloc}}.\mbox{\hyperlink{structposition_a4c8f3776329f75007608235aae679e8a}{y}};}
+\DoxyCodeLine{128     \}}
+\DoxyCodeLine{129 }
+\DoxyCodeLine{130     \textcolor{keywordflow}{return} distMin;}
+\DoxyCodeLine{131 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{display_8c_abd00a978a929f7fbddb92e23286273d3}\label{display_8c_abd00a978a929f7fbddb92e23286273d3}} 
+\index{display.c@{display.c}!scaleTree@{scaleTree}}
+\index{scaleTree@{scaleTree}!display.c@{display.c}}
+\doxysubsubsection{\texorpdfstring{scaleTree()}{scaleTree()}}
+{\footnotesize\ttfamily void scale\+Tree (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structtree}{tree}} $\ast$}]{forest,  }\item[{size\+\_\+t}]{size,  }\item[{int}]{zoom,  }\item[{int}]{left,  }\item[{int}]{up }\end{DoxyParamCaption})}
+
+
+
+Effectue une transformation affine des coordonnées des arbres de la liste forest de taille size, de manière à recadrer les arbres dans la fenêtre de taille W\+I\+D\+T\+H$\ast$\+H\+E\+I\+G\+HT, et à prendre compte du zoom et du déplacement avec les flèches. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em forest} & \\
+\hline
+{\em size} & \\
+\hline
+{\em zoom} & \\
+\hline
+{\em left} & \\
+\hline
+{\em up} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{30                                                                      \{}
+\DoxyCodeLine{31     \textcolor{keywordtype}{double} xmin, xmax, ymin, ymax;}
+\DoxyCodeLine{32     \mbox{\hyperlink{display_8c_ab7d67ad0a7206fc20171512033d3fb2e}{getExtremum}}(forest, size, \&xmin, \&ymin, \&xmax, \&ymax);}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35     \textcolor{keywordtype}{double} alpha = (\mbox{\hyperlink{display_8c_a241aeeb764887ae5e3de58b98f04b16d}{WIDTH}})/(xmax -\/ xmin )*(1+ 0.02*zoom);}
+\DoxyCodeLine{36     \textcolor{keywordtype}{double} beta = (\mbox{\hyperlink{display_8c_aed89bd71aee8be823e8a20ec4e093c1e}{HEIGHT}})/(ymax -\/ ymin )*(1+ 0.02*zoom);}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i<size; i++)\{}
+\DoxyCodeLine{39             forest[i].\mbox{\hyperlink{structtree_a298f78a3e0e132f7b8635cadc96727c7}{geoloc}}.\mbox{\hyperlink{structposition_a0ab4d1279ca59c4e71d543144a4ea98f}{x}} = (forest[i].\mbox{\hyperlink{structtree_a298f78a3e0e132f7b8635cadc96727c7}{geoloc}}.\mbox{\hyperlink{structposition_a0ab4d1279ca59c4e71d543144a4ea98f}{x}} -\/ xmin ) * alpha -\/ 10*zoom + 5*left;}
+\DoxyCodeLine{40             forest[i].\mbox{\hyperlink{structtree_a298f78a3e0e132f7b8635cadc96727c7}{geoloc}}.\mbox{\hyperlink{structposition_a4c8f3776329f75007608235aae679e8a}{y}} = (forest[i].\mbox{\hyperlink{structtree_a298f78a3e0e132f7b8635cadc96727c7}{geoloc}}.\mbox{\hyperlink{structposition_a4c8f3776329f75007608235aae679e8a}{y}} -\/ ymin ) * beta -\/ 10*zoom + 5*up;}
+\DoxyCodeLine{41     \}}
+\DoxyCodeLine{42     \textcolor{keywordflow}{return};}
+\DoxyCodeLine{43 \}}
+
+\end{DoxyCode}

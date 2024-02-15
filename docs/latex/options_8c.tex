@@ -1,0 +1,158 @@
+\hypertarget{options_8c}{}\doxysection{src/options.c File Reference}
+\label{options_8c}\index{src/options.c@{src/options.c}}
+{\ttfamily \#include $<$ctype.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}../include/struct.\+h\char`\"{}}\newline
+Include dependency graph for options.\+c\+:
+% FIG 0
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{options_8c_a0bed8474bd33a912769360766f6b10d4}{help}} (void)
+\item 
+void \mbox{\hyperlink{options_8c_a6dc7b40134f3b10f300db7e031fcb942}{init\+Options}} (\mbox{\hyperlink{structopt}{opt}} $\ast$\mbox{\hyperlink{options_8h_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}})
+\item 
+void \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}} (int argc, char $\ast$$\ast$argv, \mbox{\hyperlink{structopt}{opt}} $\ast$options)
+\begin{DoxyCompactList}\small\item\em Cette fonction gère les options mises en argument. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{options_8c_a0bed8474bd33a912769360766f6b10d4}\label{options_8c_a0bed8474bd33a912769360766f6b10d4}} 
+\index{options.c@{options.c}!help@{help}}
+\index{help@{help}!options.c@{options.c}}
+\doxysubsubsection{\texorpdfstring{help()}{help()}}
+{\footnotesize\ttfamily void help (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{7                \{}
+\DoxyCodeLine{8     printf(\textcolor{stringliteral}{"\(\backslash\)n**********************************************************************************************************\(\backslash\)n"});}
+\DoxyCodeLine{9     printf(\textcolor{stringliteral}{"i option (followed by a path) : path of the file you want to parse [csv or binary]\(\backslash\)n"});}
+\DoxyCodeLine{10     printf(\textcolor{stringliteral}{"c option (followed by a path) : path of the file where you want to save your gender correspondance table (if use of csv file)\(\backslash\)n"});}
+\DoxyCodeLine{11     printf(\textcolor{stringliteral}{"r option (followed by a path) : path of the file from where you want to load your gender correspondance table (if use of binary file)\(\backslash\)n"});}
+\DoxyCodeLine{12     printf(\textcolor{stringliteral}{"o option (followed by a path) : path of the file where you save the binary version of your input [binary]\(\backslash\)n"});}
+\DoxyCodeLine{13     printf(\textcolor{stringliteral}{"t option (followed by a path) : path of the file saving the minimum panning tree informations\(\backslash\)n"});}
+\DoxyCodeLine{14     printf(\textcolor{stringliteral}{"l option (followed by a positive int) : maximum distance allowed betwween your trees [meters]\(\backslash\)n"});}
+\DoxyCodeLine{15     printf(\textcolor{stringliteral}{"s option (no arguments) : to get statistics on the tree\(\backslash\)n"});}
+\DoxyCodeLine{16     printf(\textcolor{stringliteral}{"f option (followed by 4 positives int) : x minimum X1, y minimum Y1,x maximum X2, y maximum Y2 [°]\(\backslash\)n"});}
+\DoxyCodeLine{17     printf(\textcolor{stringliteral}{"g option (followed by a string) : to get a mimimum spanning tree only considering this genus\(\backslash\)n"});}
+\DoxyCodeLine{18     printf(\textcolor{stringliteral}{"h option (followed by an positive int) :  to get a mimimum spanning tree only considering this height [meters]\(\backslash\)n"});}
+\DoxyCodeLine{19     printf(\textcolor{stringliteral}{"**********************************************************************************************************\(\backslash\)n"});}
+\DoxyCodeLine{20 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{options_8c_a6dc7b40134f3b10f300db7e031fcb942}\label{options_8c_a6dc7b40134f3b10f300db7e031fcb942}} 
+\index{options.c@{options.c}!initOptions@{initOptions}}
+\index{initOptions@{initOptions}!options.c@{options.c}}
+\doxysubsubsection{\texorpdfstring{initOptions()}{initOptions()}}
+{\footnotesize\ttfamily void init\+Options (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structopt}{opt}} $\ast$}]{options }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{22                                \{}
+\DoxyCodeLine{23     \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>in\_path = NULL;  \textcolor{comment}{//ok}}
+\DoxyCodeLine{24     \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>out\_path = NULL;  \textcolor{comment}{//ok}}
+\DoxyCodeLine{25     \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>span\_tree\_path = NULL;   \textcolor{comment}{//ok}}
+\DoxyCodeLine{26     \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>limit\_value = NULL;  }
+\DoxyCodeLine{27     \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>stat = 0;}
+\DoxyCodeLine{28     \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>location = NULL;    \textcolor{comment}{//ok}}
+\DoxyCodeLine{29     \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>genus = NULL;  \textcolor{comment}{//ok}}
+\DoxyCodeLine{30     \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>height = NULL;  \textcolor{comment}{//ok}}
+\DoxyCodeLine{31     \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>conserve = NULL;  \textcolor{comment}{//ok}}
+\DoxyCodeLine{32     \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>recharge = NULL;   \textcolor{comment}{//ok}}
+\DoxyCodeLine{33     \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>help = 0;   \textcolor{comment}{//ok}}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}\label{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}} 
+\index{options.c@{options.c}!options@{options}}
+\index{options@{options}!options.c@{options.c}}
+\doxysubsubsection{\texorpdfstring{options()}{options()}}
+{\footnotesize\ttfamily void options (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv,  }\item[{\mbox{\hyperlink{structopt}{opt}} $\ast$}]{options }\end{DoxyParamCaption})}
+
+
+
+Cette fonction gère les options mises en argument. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & nombre d\textquotesingle{}arguments \\
+\hline
+{\em argv} & liste des différentes chaînes de caractères écrites en arguments \\
+\hline
+{\em options} & pointeur vers une structure stockant chaque option mise en argument \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{37                                                    \{}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39     \mbox{\hyperlink{options_8c_a6dc7b40134f3b10f300db7e031fcb942}{initOptions}}(\mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}});}
+\DoxyCodeLine{40     \textcolor{keywordtype}{int} c;}
+\DoxyCodeLine{41     \textcolor{keywordflow}{while} ((c = getopt (argc, argv, \textcolor{stringliteral}{"i:o:t:l:sf:g:h:c:r:a"})) != -\/1)}
+\DoxyCodeLine{42         \textcolor{keywordflow}{switch} (c) \{}
+\DoxyCodeLine{43             \textcolor{keywordflow}{case} \textcolor{charliteral}{'i'}:}
+\DoxyCodeLine{44                 \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>in\_path = optarg;}
+\DoxyCodeLine{45                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{46             \textcolor{keywordflow}{case} \textcolor{charliteral}{'o'}:}
+\DoxyCodeLine{47                 \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>out\_path = optarg;}
+\DoxyCodeLine{48                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{49             \textcolor{keywordflow}{case} \textcolor{charliteral}{'t'}:}
+\DoxyCodeLine{50                 \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>span\_tree\_path = optarg;}
+\DoxyCodeLine{51                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{52             \textcolor{keywordflow}{case} \textcolor{charliteral}{'f'}:}
+\DoxyCodeLine{53                 \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>limit\_value = optarg;}
+\DoxyCodeLine{54                 \textcolor{keywordflow}{if}(atoi(\mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>limit\_value) <= 0) \{fprintf(stderr,\textcolor{stringliteral}{"The limit \%d must be a positive value"},atoi(\mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>limit\_value)); \mbox{\hyperlink{options_8c_a0bed8474bd33a912769360766f6b10d4}{help}}(); exit(1);\}}
+\DoxyCodeLine{55                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{56             \textcolor{keywordflow}{case} \textcolor{charliteral}{'s'}:}
+\DoxyCodeLine{57                 \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>stat= 1;}
+\DoxyCodeLine{58                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{59             \textcolor{keywordflow}{case} \textcolor{charliteral}{'l'}:}
+\DoxyCodeLine{60                 \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>location = optarg;}
+\DoxyCodeLine{61                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{62             \textcolor{keywordflow}{case} \textcolor{charliteral}{'g'}:}
+\DoxyCodeLine{63                 \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>genus = optarg;}
+\DoxyCodeLine{64                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{65             \textcolor{keywordflow}{case} \textcolor{charliteral}{'h'}:}
+\DoxyCodeLine{66                 \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>height = optarg;}
+\DoxyCodeLine{67                 \textcolor{keywordflow}{if}(atoi(\mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>height) <= 0) \{fprintf(stderr,\textcolor{stringliteral}{"Th height \%d must be a positive value"},atoi(\mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>height));  \mbox{\hyperlink{options_8c_a0bed8474bd33a912769360766f6b10d4}{help}}(); exit(1);\}}
+\DoxyCodeLine{68                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{69             \textcolor{keywordflow}{case} \textcolor{charliteral}{'c'}:}
+\DoxyCodeLine{70                 \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>conserve = optarg;}
+\DoxyCodeLine{71                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{72             \textcolor{keywordflow}{case} \textcolor{charliteral}{'r'}:}
+\DoxyCodeLine{73                 \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>recharge = optarg;}
+\DoxyCodeLine{74                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{75             \textcolor{keywordflow}{case} \textcolor{charliteral}{'a'}:}
+\DoxyCodeLine{76                 \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}-\/>help = 1;}
+\DoxyCodeLine{77                 \mbox{\hyperlink{options_8c_a0bed8474bd33a912769360766f6b10d4}{help}}();}
+\DoxyCodeLine{78                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{80             \textcolor{keywordflow}{case} \textcolor{charliteral}{'?'}:}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{82                 \textcolor{keywordflow}{if} (optopt == \textcolor{charliteral}{'i'} || optopt == \textcolor{charliteral}{'o'}|| optopt == \textcolor{charliteral}{'t'} || optopt == \textcolor{charliteral}{'l'} || optopt == \textcolor{charliteral}{'f'} || optopt == \textcolor{charliteral}{'g'} || optopt == \textcolor{charliteral}{'h'})\{}
+\DoxyCodeLine{83                     fprintf (stderr, \textcolor{stringliteral}{"Option -\/\%c requires an argument.\(\backslash\)n"}, optopt);}
+\DoxyCodeLine{84                     \mbox{\hyperlink{options_8c_a0bed8474bd33a912769360766f6b10d4}{help}}(); }
+\DoxyCodeLine{85                     exit(2);}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{87                 \}\textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (isprint (optopt))\{}
+\DoxyCodeLine{88                     fprintf (stderr, \textcolor{stringliteral}{"Unknown option -\/\%c.\(\backslash\)n"}, optopt);}
+\DoxyCodeLine{89                     exit(3);}
+\DoxyCodeLine{90 }
+\DoxyCodeLine{91                 \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{92                     fprintf (stderr,\textcolor{stringliteral}{"Unknown option character `\(\backslash\)\(\backslash\)x\%x'.\(\backslash\)n"}, optopt);}
+\DoxyCodeLine{93                     exit(3);}
+\DoxyCodeLine{94                 \}}
+\DoxyCodeLine{95                 }
+\DoxyCodeLine{96 }
+\DoxyCodeLine{97             \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{98                 abort ();}
+\DoxyCodeLine{99         \}}
+\DoxyCodeLine{100 }
+\DoxyCodeLine{101 }
+\DoxyCodeLine{102 \}}
+
+\end{DoxyCode}

@@ -1,0 +1,11 @@
+digraph "edge"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{edge\n||}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="structure définissant une arête"];
+  Node2 -> Node1 [color="grey25",fontsize="10",style="solid",label=" +tree1\n+tree2" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node2 [label="{tree\n|+ genus\l+ height\l|}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structtree.html",tooltip="structure informations importantes concernant un arbre"];
+  Node3 -> Node2 [color="grey25",fontsize="10",style="solid",label=" +geoloc" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node3 [label="{position\n|+ x\l+ y\l|}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structposition.html",tooltip="structure donnant la localisation d'un arbre"];
+}

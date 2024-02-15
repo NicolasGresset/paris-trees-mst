@@ -1,0 +1,100 @@
+\hypertarget{arbres_8c}{}\doxysection{src/arbres.c File Reference}
+\label{arbres_8c}\index{src/arbres.c@{src/arbres.c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}../include/struct.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../include/fonctions.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../include/options.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../include/parse.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../include/algo.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../include/display.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../include/stat.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../include/restrictive\+Options.\+h\char`\"{}}\newline
+Include dependency graph for arbres.\+c\+:
+% FIG 0
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{arbres_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main}} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{arbres_8c_a3c04138a5bfe5d72780bb7e82a18e627}\label{arbres_8c_a3c04138a5bfe5d72780bb7e82a18e627}} 
+\index{arbres.c@{arbres.c}!main@{main}}
+\index{main@{main}!arbres.c@{arbres.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{56                                 \{}
+\DoxyCodeLine{57     (void)argc;}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59     \mbox{\hyperlink{structopt}{opt}} handlingOptions;}
+\DoxyCodeLine{60     \mbox{\hyperlink{options_8c_a61a7b26ea2d2c2bae572cfe57a0ce3d5}{options}}(argc,argv,\&handlingOptions);}
+\DoxyCodeLine{61     }
+\DoxyCodeLine{62     \textcolor{keywordtype}{int} size;}
+\DoxyCodeLine{63     \mbox{\hyperlink{structtree}{tree}} * trees=malloc(300000*\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structtree}{tree}}));}
+\DoxyCodeLine{64     \textcolor{keywordflow}{if}(trees == NULL) \{ exit(15); \}}
+\DoxyCodeLine{65     memset(trees,0,\textcolor{keyword}{sizeof}(*trees)*300000);}
+\DoxyCodeLine{66     \mbox{\hyperlink{parse_8c_abd3676c711ff2728e5acc162628c39bb}{handlingFile}}(handlingOptions,trees,\&size);}
+\DoxyCodeLine{67     }
+\DoxyCodeLine{68     \textcolor{keywordtype}{int} sizeSelection;}
+\DoxyCodeLine{69     \mbox{\hyperlink{structtree}{tree}} * treesSelection=malloc(300000*\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structtree}{tree}}));}
+\DoxyCodeLine{70     \textcolor{keywordflow}{if}(treesSelection == NULL)\{ exit(15); \}}
+\DoxyCodeLine{71     \mbox{\hyperlink{structedge}{edge}} * MST;}
+\DoxyCodeLine{72     \textcolor{keywordtype}{size\_t} newsize;}
+\DoxyCodeLine{73     \textcolor{keywordtype}{char} * endPointer;}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75 }
+\DoxyCodeLine{76     \mbox{\hyperlink{fonctions_8c_af18ef119d8c281b81165033c74ad49f1}{projectionTrees}}(trees, size);}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78     \textcolor{comment}{//printf("\%ld",strtod(handlingOptions.location,\&endPointer));}}
+\DoxyCodeLine{79     }
+\DoxyCodeLine{80     \textcolor{keywordflow}{if}(handlingOptions.\mbox{\hyperlink{structopt_ab74aec43a44b95b42fffc3319adb019f}{height}} == NULL \&\& handlingOptions.\mbox{\hyperlink{structopt_ab5b54f29a8bc5c4e1a2c84527aad8c00}{genus}} == NULL \&\& handlingOptions.\mbox{\hyperlink{structopt_a5c2fc0cd11085fc8bf313b56cc791a75}{limit\_value}} == NULL)\{ }
+\DoxyCodeLine{81 }
+\DoxyCodeLine{82         \textcolor{keywordflow}{if}(handlingOptions.\mbox{\hyperlink{structopt_aaf6d5cc2fc5b59c841a9dab86bb025a1}{location}} != NULL) \{}
+\DoxyCodeLine{83             \mbox{\hyperlink{structtree}{tree}}* treesSelection2 = \mbox{\hyperlink{algo_8c_ab0c982f403cbd716f39ace419829a668}{getForestMaxComposante}}(trees, size, pow(strtod(handlingOptions.\mbox{\hyperlink{structopt_aaf6d5cc2fc5b59c841a9dab86bb025a1}{location}},\&endPointer)/\mbox{\hyperlink{fonctions_8h_a3304c99f43f534878204486fc7b9673d}{RAYON}}, 2), \&newsize);}
+\DoxyCodeLine{84             MST = \mbox{\hyperlink{algo_8c_ae3566388dc2dbe7eb6197bbf6b7979e4}{minimumSpanningTree}}(treesSelection2, newsize);}
+\DoxyCodeLine{85             \mbox{\hyperlink{stat_8c_ad0504264256ba096bb799d387f11682d}{stat}}(handlingOptions,MST,newsize, treesSelection2);}
+\DoxyCodeLine{86             \mbox{\hyperlink{display_8c_a6d1822b75d0e0ba6328174a5d84cb875}{displayTrees}}(MST, newsize, treesSelection2);}
+\DoxyCodeLine{87             \mbox{\hyperlink{parse_8c_ae17e8d9b38ac4864828eb54b4d916a0f}{writeEdges}}(MST,newsize-\/1,handlingOptions);}
+\DoxyCodeLine{88 }
+\DoxyCodeLine{89         \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{90             MST = \mbox{\hyperlink{algo_8c_ae3566388dc2dbe7eb6197bbf6b7979e4}{minimumSpanningTree}}(trees, size);}
+\DoxyCodeLine{91             \mbox{\hyperlink{stat_8c_ad0504264256ba096bb799d387f11682d}{stat}}(handlingOptions,MST,size, trees);}
+\DoxyCodeLine{92             \mbox{\hyperlink{display_8c_a6d1822b75d0e0ba6328174a5d84cb875}{displayTrees}}(MST, size, trees);}
+\DoxyCodeLine{93             \mbox{\hyperlink{parse_8c_ae17e8d9b38ac4864828eb54b4d916a0f}{writeEdges}}(MST,size-\/1,handlingOptions);}
+\DoxyCodeLine{94 }
+\DoxyCodeLine{95         \}}
+\DoxyCodeLine{96 }
+\DoxyCodeLine{97     \}\textcolor{keywordflow}{else}\{ }
+\DoxyCodeLine{98         }
+\DoxyCodeLine{99         \mbox{\hyperlink{restrictiveOptions_8c_af922efbacb29fb8a175816b5f164b9e3}{handlingRestrictingOptions}}(handlingOptions,trees,treesSelection,size,\&sizeSelection); }
+\DoxyCodeLine{100         \textcolor{keywordflow}{if}(handlingOptions.\mbox{\hyperlink{structopt_aaf6d5cc2fc5b59c841a9dab86bb025a1}{location}} != NULL) \{}
+\DoxyCodeLine{101             \mbox{\hyperlink{structtree}{tree}}* treesSelection2 = \mbox{\hyperlink{algo_8c_ab0c982f403cbd716f39ace419829a668}{getForestMaxComposante}}(treesSelection, sizeSelection, pow(strtod(handlingOptions.\mbox{\hyperlink{structopt_aaf6d5cc2fc5b59c841a9dab86bb025a1}{location}},\&endPointer)/\mbox{\hyperlink{fonctions_8h_a3304c99f43f534878204486fc7b9673d}{RAYON}}, 2), \&newsize);}
+\DoxyCodeLine{102             MST = \mbox{\hyperlink{algo_8c_ae3566388dc2dbe7eb6197bbf6b7979e4}{minimumSpanningTree}}(treesSelection2, newsize);}
+\DoxyCodeLine{103             \mbox{\hyperlink{stat_8c_ad0504264256ba096bb799d387f11682d}{stat}}(handlingOptions,MST,newsize, treesSelection2);}
+\DoxyCodeLine{104             \mbox{\hyperlink{display_8c_a6d1822b75d0e0ba6328174a5d84cb875}{displayTrees}}(MST, newsize, treesSelection2);}
+\DoxyCodeLine{105             \mbox{\hyperlink{parse_8c_ae17e8d9b38ac4864828eb54b4d916a0f}{writeEdges}}(MST,newsize-\/1,handlingOptions);}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107         \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{109             MST = \mbox{\hyperlink{algo_8c_ae3566388dc2dbe7eb6197bbf6b7979e4}{minimumSpanningTree}}(treesSelection, sizeSelection);}
+\DoxyCodeLine{110             \mbox{\hyperlink{stat_8c_ad0504264256ba096bb799d387f11682d}{stat}}(handlingOptions,MST,size, treesSelection);}
+\DoxyCodeLine{111             \mbox{\hyperlink{display_8c_a6d1822b75d0e0ba6328174a5d84cb875}{displayTrees}}(MST, sizeSelection, treesSelection);}
+\DoxyCodeLine{112             \mbox{\hyperlink{parse_8c_ae17e8d9b38ac4864828eb54b4d916a0f}{writeEdges}}(MST,sizeSelection-\/1,handlingOptions);}
+\DoxyCodeLine{113 }
+\DoxyCodeLine{114         \}}
+\DoxyCodeLine{115 }
+\DoxyCodeLine{116     \}}
+\DoxyCodeLine{117 }
+\DoxyCodeLine{118     }
+\DoxyCodeLine{119     free(MST);}
+\DoxyCodeLine{120     free(trees);}
+\DoxyCodeLine{121     free(treesSelection);}
+\DoxyCodeLine{122     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{123 }
+\DoxyCodeLine{124 \}}
+
+\end{DoxyCode}

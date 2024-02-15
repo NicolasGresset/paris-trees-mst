@@ -1,0 +1,64 @@
+\hypertarget{manageSIGINT_8h}{}\doxysection{include/manage\+S\+I\+G\+I\+NT.h File Reference}
+\label{manageSIGINT_8h}\index{include/manageSIGINT.h@{include/manageSIGINT.h}}
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include $<$signal.\+h$>$}\newline
+Include dependency graph for manage\+S\+I\+G\+I\+N\+T.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{manageSIGINT_8h_af3362a540be27c1ebee056ba2d040832}{sig\+Intitialise}} (sigset\+\_\+t $\ast$masked, sigset\+\_\+t $\ast$old)
+\item 
+void \mbox{\hyperlink{manageSIGINT_8h_a141451f2022226a29ab278b96b477e0f}{sig\+Handle}} (struct sigaction $\ast$ignore, sigset\+\_\+t $\ast$pending, sigset\+\_\+t $\ast$old)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{manageSIGINT_8h_a141451f2022226a29ab278b96b477e0f}\label{manageSIGINT_8h_a141451f2022226a29ab278b96b477e0f}} 
+\index{manageSIGINT.h@{manageSIGINT.h}!sigHandle@{sigHandle}}
+\index{sigHandle@{sigHandle}!manageSIGINT.h@{manageSIGINT.h}}
+\doxysubsubsection{\texorpdfstring{sigHandle()}{sigHandle()}}
+{\footnotesize\ttfamily void sig\+Handle (\begin{DoxyParamCaption}\item[{struct sigaction $\ast$}]{ignore,  }\item[{sigset\+\_\+t $\ast$}]{pending,  }\item[{sigset\+\_\+t $\ast$}]{old }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{18                                                                              \{}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20     \textcolor{keyword}{struct }sigaction saved;}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22     sigpending(pending);   \textcolor{comment}{//ajoute tous les signaux (ici SIGINT) en attente dans le set pending}}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24     sigemptyset(\&ignore-\/>sa\_mask);        \textcolor{comment}{//initialise le set sa\_mask de la structure ignore}}
+\DoxyCodeLine{25     ignore-\/>sa\_flags=0;}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27     sigaction(SIGINT,ignore,\&saved);    \textcolor{comment}{//donne nouveau comportement après \string^C d'après ignore et stocke l'ancien dans sauvegarde}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29     sigprocmask(SIG\_SETMASK,old,0);            \textcolor{comment}{//retour au comportemetn normal}}
+\DoxyCodeLine{30     ignore-\/>sa\_handler=SIG\_IGN;}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32     sigaction(SIGINT,\&saved,0);            \textcolor{comment}{//reprend l'ancien comportement}}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{manageSIGINT_8h_af3362a540be27c1ebee056ba2d040832}\label{manageSIGINT_8h_af3362a540be27c1ebee056ba2d040832}} 
+\index{manageSIGINT.h@{manageSIGINT.h}!sigIntitialise@{sigIntitialise}}
+\index{sigIntitialise@{sigIntitialise}!manageSIGINT.h@{manageSIGINT.h}}
+\doxysubsubsection{\texorpdfstring{sigIntitialise()}{sigIntitialise()}}
+{\footnotesize\ttfamily void sig\+Intitialise (\begin{DoxyParamCaption}\item[{sigset\+\_\+t $\ast$}]{masked,  }\item[{sigset\+\_\+t $\ast$}]{old }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{8                                                      \{}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10     printf(\textcolor{stringliteral}{"\string^C will be taken into account when finishing to write in the binary file.\(\backslash\)n"});}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12     sigemptyset(masked);         \textcolor{comment}{//initialise le set masked (vide)}}
+\DoxyCodeLine{13     sigaddset(masked,SIGINT);         \textcolor{comment}{//ajoute SIGINT au set masked}}
+\DoxyCodeLine{14     sigprocmask(SIG\_SETMASK,masked,old);    \textcolor{comment}{//met ce qu'il y avait dans masked dans old}}
+\DoxyCodeLine{15 \}}
+
+\end{DoxyCode}

@@ -1,0 +1,56 @@
+
+####
+#### Compilation
+####
+rm -rf ../../obj/*.o
+rm -f ../../bin/arbres
+mkdir -p ../../obj
+cc -o ../../obj/stat.o -c ../../src/stat.c -Wall -g -ltps -lSDL2 -lSDL2_ttf -I./include
+mkdir -p ../../obj
+cc -o ../../obj/restrictiveOptions.o -c ../../src/restrictiveOptions.c -Wall -g -ltps -lSDL2 -lSDL2_ttf -I./include
+mkdir -p ../../obj
+cc -o ../../obj/manageSIGINT.o -c ../../src/manageSIGINT.c -Wall -g -ltps -lSDL2 -lSDL2_ttf -I./include
+mkdir -p ../../obj
+cc -o ../../obj/display.o -c ../../src/display.c -Wall -g -ltps -lSDL2 -lSDL2_ttf -I./include
+mkdir -p ../../obj
+cc -o ../../obj/fonctions.o -c ../../src/fonctions.c -Wall -g -ltps -lSDL2 -lSDL2_ttf -I./include
+mkdir -p ../../obj
+cc -o ../../obj/pile.o -c ../../src/pile.c -Wall -g -ltps -lSDL2 -lSDL2_ttf -I./include
+mkdir -p ../../obj
+cc -o ../../obj/algo.o -c ../../src/algo.c -Wall -g -ltps -lSDL2 -lSDL2_ttf -I./include
+mkdir -p ../../obj
+cc -o ../../obj/options.o -c ../../src/options.c -Wall -g -ltps -lSDL2 -lSDL2_ttf -I./include
+mkdir -p ../../obj
+cc -o ../../obj/parse.o -c ../../src/parse.c -Wall -g -ltps -lSDL2 -lSDL2_ttf -I./include
+mkdir -p ../../obj
+cc -o ../../obj/arbres.o -c ../../src/arbres.c -Wall -g -ltps -lSDL2 -lSDL2_ttf -I./include
+mkdir -p ../../obj
+cc -o ../../obj/array-list.o -c ../../src/array-list.c -Wall -g -ltps -lSDL2 -lSDL2_ttf -I./include
+mkdir -p ../../bin
+cc -o ../../bin/arbres ../../obj/stat.o ../../obj/restrictiveOptions.o ../../obj/manageSIGINT.o ../../obj/display.o ../../obj/fonctions.o ../../obj/pile.o ../../obj/algo.o ../../obj/options.o ../../obj/parse.o ../../obj/arbres.o ../../obj/array-list.o -Wall -g -ltps -lSDL2 -lSDL2_ttf -lm
+Linking complete!
+
+####
+#### test manque arguments après option
+####
+./arbres: option requires an argument -- 'o'
+Option -o requires an argument.
+
+**********************************************************************************************************
+i option (followed by a path) : path of the file you want to parse [csv or binary]
+c option (followed by a path) : path of the file where you want to save your gender correspondance table (if use of csv file)
+r option (followed by a path) : path of the file from where you want to load your gender correspondance table (if use of binary file)
+o option (followed by a path) : path of the file where you save the binary version of your input [binary]
+t option (followed by a path) : path of the file saving the minimum panning tree informations
+l option (followed by a positive int) : maximum distance allowed betwween your trees [meters]
+s option (no arguments) : to get statistics on the tree
+f option (followed by 4 positives int) : x minimum X1, y minimum Y1,x maximum X2, y maximum Y2 [°]
+g option (followed by a string) : to get a mimimum spanning tree only considering this genus
+h option (followed by an positive int) :  to get a mimimum spanning tree only considering this height [meters]
+**********************************************************************************************************
+
+####
+#### test option inconnue
+####
+./arbres: invalid option -- 'q'
+Unknown option -q.

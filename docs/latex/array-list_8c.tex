@@ -1,0 +1,286 @@
+\hypertarget{array-list_8c}{}\doxysection{src/array-\/list.c File Reference}
+\label{array-list_8c}\index{src/array-\/list.c@{src/array-\/list.c}}
+{\ttfamily \#include \char`\"{}../include/array-\/list.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+Include dependency graph for array-\/list.c\+:
+% FIG 0
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structlist__t}{list\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structlist__t}{list\+\_\+t}} $\ast$ \mbox{\hyperlink{array-list_8c_a29f30488e60e8e4222c5118d754f0dbb}{list\+\_\+create}} (void)
+\begin{DoxyCompactList}\small\item\em Crée une liste vide. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{array-list_8c_abd5d607adddcc300a324588f12b00ed8}{list\+\_\+append}} (\mbox{\hyperlink{structlist__t}{list\+\_\+t}} $\ast$it, void $\ast$element\+\_\+to\+\_\+append)
+\begin{DoxyCompactList}\small\item\em Ajoute un élément à la fin de la liste. \end{DoxyCompactList}\item 
+void $\ast$ \mbox{\hyperlink{array-list_8c_a8da0eb9133b9b1821cfa6811d88f4259}{list\+\_\+get}} (\mbox{\hyperlink{structlist__t}{list\+\_\+t}} $\ast$it, int pos)
+\begin{DoxyCompactList}\small\item\em retourne le (idx+1)ème élément comportement indéfini en cas de dépassemnt \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{array-list_8c_a1ec39ae5962d70f4484c0b656956fbb5}{list\+\_\+set}} (\mbox{\hyperlink{structlist__t}{list\+\_\+t}} $\ast$it, int pos, void $\ast$element)
+\begin{DoxyCompactList}\small\item\em remplace l\textquotesingle{}élément à la position donnée par l\textquotesingle{}élément donné \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{array-list_8c_adcfa11f7eafb9f7562fba20f0d7f4e2a}{list\+\_\+size}} (\mbox{\hyperlink{structlist__t}{list\+\_\+t}} $\ast$it)
+\begin{DoxyCompactList}\small\item\em revoie la taille de la liste \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{array-list_8c_ab3e47ea7db86a9f33d93fca5a25b87cc}{list\+\_\+insert}} (\mbox{\hyperlink{structlist__t}{list\+\_\+t}} $\ast$it, size\+\_\+t pos, void $\ast$elmt)
+\begin{DoxyCompactList}\small\item\em insère un élément à la position idx \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{array-list_8c_a5eb5f590f52fa4763c75eabcda9abe36}{list\+\_\+prepend}} (\mbox{\hyperlink{structlist__t}{list\+\_\+t}} $\ast$it, void $\ast$elmt)
+\begin{DoxyCompactList}\small\item\em Ajoute un élément en début de liste. \end{DoxyCompactList}\item 
+void $\ast$ \mbox{\hyperlink{array-list_8c_a086e3f7f2956e50db180c011845cb776}{list\+\_\+take}} (\mbox{\hyperlink{structlist__t}{list\+\_\+t}} $\ast$it, int pos)
+\begin{DoxyCompactList}\small\item\em retourne l\textquotesingle{}élément à la position idc, puis enlève cet élément de la liste \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{array-list_8c_adb3fd6e587db7dbce8703815a8200441}{list\+\_\+free}} (\mbox{\hyperlink{structlist__t}{list\+\_\+t}} $\ast$it)
+\begin{DoxyCompactList}\small\item\em libère la liste et tous ses éléments \end{DoxyCompactList}\item 
+size\+\_\+t $\ast$ \mbox{\hyperlink{array-list_8c_a7b8af2083784734274bbee9e5c67d34b}{create\+\_\+size\+\_\+t}} (size\+\_\+t i)
+\item 
+void \mbox{\hyperlink{array-list_8c_a09e105a966c9826976187aa227f67194}{list\+\_\+free2}} (\mbox{\hyperlink{structlist__t}{list\+\_\+t}} $\ast$it)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{array-list_8c_a7b8af2083784734274bbee9e5c67d34b}\label{array-list_8c_a7b8af2083784734274bbee9e5c67d34b}} 
+\index{array-\/list.c@{array-\/list.c}!create\_size\_t@{create\_size\_t}}
+\index{create\_size\_t@{create\_size\_t}!array-\/list.c@{array-\/list.c}}
+\doxysubsubsection{\texorpdfstring{create\_size\_t()}{create\_size\_t()}}
+{\footnotesize\ttfamily size\+\_\+t$\ast$ create\+\_\+size\+\_\+t (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{i }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{92                                \{}
+\DoxyCodeLine{93   \textcolor{keywordtype}{size\_t}* p = malloc(\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{size\_t}));}
+\DoxyCodeLine{94   *p = i;}
+\DoxyCodeLine{95   \textcolor{keywordflow}{return} p;}
+\DoxyCodeLine{96 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{array-list_8c_abd5d607adddcc300a324588f12b00ed8}\label{array-list_8c_abd5d607adddcc300a324588f12b00ed8}} 
+\index{array-\/list.c@{array-\/list.c}!list\_append@{list\_append}}
+\index{list\_append@{list\_append}!array-\/list.c@{array-\/list.c}}
+\doxysubsubsection{\texorpdfstring{list\_append()}{list\_append()}}
+{\footnotesize\ttfamily int list\+\_\+append (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structlist__t}{list\+\_\+t}} $\ast$}]{,  }\item[{void $\ast$}]{ }\end{DoxyParamCaption})}
+
+
+
+Ajoute un élément à la fin de la liste. 
+
+\begin{DoxyReturn}{Returns}
+0 en cas de problème, 1 sinon 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{27                                                     \{}
+\DoxyCodeLine{28     \textcolor{keywordflow}{if}( it-\/>\mbox{\hyperlink{structlist__t_a5c985284293b9906f913542e36e40b41}{size}} < it-\/>\mbox{\hyperlink{structlist__t_a545866c10437e674417eed908a43846a}{allocated}})\{}
+\DoxyCodeLine{29         it-\/>\mbox{\hyperlink{structlist__t_a50b00b979c754b66e735689d37b1fa4d}{element}}[it-\/>\mbox{\hyperlink{structlist__t_a5c985284293b9906f913542e36e40b41}{size}}] = element\_to\_append;}
+\DoxyCodeLine{30         it-\/>\mbox{\hyperlink{structlist__t_a5c985284293b9906f913542e36e40b41}{size}} ++;}
+\DoxyCodeLine{31         \textcolor{keywordflow}{return} 1; }
+\DoxyCodeLine{32     \}}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34     \textcolor{keywordtype}{void}** tmp = realloc(it-\/>\mbox{\hyperlink{structlist__t_a50b00b979c754b66e735689d37b1fa4d}{element}},(it-\/>\mbox{\hyperlink{structlist__t_a545866c10437e674417eed908a43846a}{allocated}}+15)*\textcolor{keyword}{sizeof}(it-\/>\mbox{\hyperlink{structlist__t_a50b00b979c754b66e735689d37b1fa4d}{element}}[0]));}
+\DoxyCodeLine{35     \textcolor{keywordflow}{if} (tmp == NULL)\{}
+\DoxyCodeLine{36         \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{37     \}}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39     it-\/>\mbox{\hyperlink{structlist__t_a50b00b979c754b66e735689d37b1fa4d}{element}} = tmp;}
+\DoxyCodeLine{40     it-\/>\mbox{\hyperlink{structlist__t_a545866c10437e674417eed908a43846a}{allocated}} += 15; }
+\DoxyCodeLine{41     it-\/>\mbox{\hyperlink{structlist__t_a50b00b979c754b66e735689d37b1fa4d}{element}}[it-\/>\mbox{\hyperlink{structlist__t_a5c985284293b9906f913542e36e40b41}{size}}] = element\_to\_append;}
+\DoxyCodeLine{42     it-\/>\mbox{\hyperlink{structlist__t_a5c985284293b9906f913542e36e40b41}{size}} ++;}
+\DoxyCodeLine{43     \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{44 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{array-list_8c_a29f30488e60e8e4222c5118d754f0dbb}\label{array-list_8c_a29f30488e60e8e4222c5118d754f0dbb}} 
+\index{array-\/list.c@{array-\/list.c}!list\_create@{list\_create}}
+\index{list\_create@{list\_create}!array-\/list.c@{array-\/list.c}}
+\doxysubsubsection{\texorpdfstring{list\_create()}{list\_create()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structlist__t}{list\+\_\+t}}$\ast$ list\+\_\+create (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Crée une liste vide. 
+
+\begin{DoxyReturn}{Returns}
+list\+\_\+t$\ast$ ou N\+U\+LL en cas de problème 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{11                          \{}
+\DoxyCodeLine{12     \mbox{\hyperlink{structlist__t}{list\_t}}* it = malloc(\textcolor{keyword}{sizeof}(*it));}
+\DoxyCodeLine{13     \textcolor{keywordflow}{if} (it == NULL) \textcolor{keywordflow}{return} NULL;}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15     it-\/>\mbox{\hyperlink{structlist__t_a50b00b979c754b66e735689d37b1fa4d}{element}} = malloc(10*\textcolor{keyword}{sizeof}(it-\/>\mbox{\hyperlink{structlist__t_a50b00b979c754b66e735689d37b1fa4d}{element}}[0]));}
+\DoxyCodeLine{16     \textcolor{keywordflow}{if} (it-\/>\mbox{\hyperlink{structlist__t_a50b00b979c754b66e735689d37b1fa4d}{element}} == NULL)\{}
+\DoxyCodeLine{17         free(it);}
+\DoxyCodeLine{18         \textcolor{keywordflow}{return} NULL;}
+\DoxyCodeLine{19     \}}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21     it-\/>\mbox{\hyperlink{structlist__t_a545866c10437e674417eed908a43846a}{allocated}} = 10;}
+\DoxyCodeLine{22     it-\/>\mbox{\hyperlink{structlist__t_a5c985284293b9906f913542e36e40b41}{size}} = 0;}
+\DoxyCodeLine{23     \textcolor{keywordflow}{return} it;}
+\DoxyCodeLine{24 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{array-list_8c_adb3fd6e587db7dbce8703815a8200441}\label{array-list_8c_adb3fd6e587db7dbce8703815a8200441}} 
+\index{array-\/list.c@{array-\/list.c}!list\_free@{list\_free}}
+\index{list\_free@{list\_free}!array-\/list.c@{array-\/list.c}}
+\doxysubsubsection{\texorpdfstring{list\_free()}{list\_free()}}
+{\footnotesize\ttfamily void list\+\_\+free (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structlist__t}{list\+\_\+t}} $\ast$}]{ }\end{DoxyParamCaption})}
+
+
+
+libère la liste et tous ses éléments 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{84                           \{}
+\DoxyCodeLine{85     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{size\_t} i = 0; i < \mbox{\hyperlink{array-list_8c_adcfa11f7eafb9f7562fba20f0d7f4e2a}{list\_size}}(it); i++)}
+\DoxyCodeLine{86         free(\mbox{\hyperlink{array-list_8c_a8da0eb9133b9b1821cfa6811d88f4259}{list\_get}}(it, i));}
+\DoxyCodeLine{87     }
+\DoxyCodeLine{88     free(it-\/>\mbox{\hyperlink{structlist__t_a50b00b979c754b66e735689d37b1fa4d}{element}});}
+\DoxyCodeLine{89     free(it); \textcolor{comment}{//modif concernant le projet programmation }}
+\DoxyCodeLine{90 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{array-list_8c_a09e105a966c9826976187aa227f67194}\label{array-list_8c_a09e105a966c9826976187aa227f67194}} 
+\index{array-\/list.c@{array-\/list.c}!list\_free2@{list\_free2}}
+\index{list\_free2@{list\_free2}!array-\/list.c@{array-\/list.c}}
+\doxysubsubsection{\texorpdfstring{list\_free2()}{list\_free2()}}
+{\footnotesize\ttfamily void list\+\_\+free2 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structlist__t}{list\+\_\+t}} $\ast$}]{it }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{98                            \{}
+\DoxyCodeLine{99     free(it-\/>\mbox{\hyperlink{structlist__t_a50b00b979c754b66e735689d37b1fa4d}{element}}); }
+\DoxyCodeLine{100     free(it);}
+\DoxyCodeLine{101 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{array-list_8c_a8da0eb9133b9b1821cfa6811d88f4259}\label{array-list_8c_a8da0eb9133b9b1821cfa6811d88f4259}} 
+\index{array-\/list.c@{array-\/list.c}!list\_get@{list\_get}}
+\index{list\_get@{list\_get}!array-\/list.c@{array-\/list.c}}
+\doxysubsubsection{\texorpdfstring{list\_get()}{list\_get()}}
+{\footnotesize\ttfamily void$\ast$ list\+\_\+get (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structlist__t}{list\+\_\+t}} $\ast$}]{,  }\item[{int}]{ }\end{DoxyParamCaption})}
+
+
+
+retourne le (idx+1)ème élément comportement indéfini en cas de dépassemnt 
+
+\begin{DoxyReturn}{Returns}
+void$\ast$ 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{46                                    \{}
+\DoxyCodeLine{47     \textcolor{keywordflow}{return} it-\/>\mbox{\hyperlink{structlist__t_a50b00b979c754b66e735689d37b1fa4d}{element}}[pos];}
+\DoxyCodeLine{48 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{array-list_8c_ab3e47ea7db86a9f33d93fca5a25b87cc}\label{array-list_8c_ab3e47ea7db86a9f33d93fca5a25b87cc}} 
+\index{array-\/list.c@{array-\/list.c}!list\_insert@{list\_insert}}
+\index{list\_insert@{list\_insert}!array-\/list.c@{array-\/list.c}}
+\doxysubsubsection{\texorpdfstring{list\_insert()}{list\_insert()}}
+{\footnotesize\ttfamily int list\+\_\+insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structlist__t}{list\+\_\+t}} $\ast$}]{,  }\item[{size\+\_\+t}]{,  }\item[{void $\ast$}]{ }\end{DoxyParamCaption})}
+
+
+
+insère un élément à la position idx 
+
+\begin{DoxyReturn}{Returns}
+0 en cas de problème, 1 sinon 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{58                                                    \{}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60     \textcolor{keywordflow}{if} (\mbox{\hyperlink{array-list_8c_abd5d607adddcc300a324588f12b00ed8}{list\_append}}(it, elmt) == 0) \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = it-\/>\mbox{\hyperlink{structlist__t_a5c985284293b9906f913542e36e40b41}{size}} -\/ 1; i>pos; i-\/-\/)\{}
+\DoxyCodeLine{63         \mbox{\hyperlink{array-list_8c_a1ec39ae5962d70f4484c0b656956fbb5}{list\_set}}(it, i, \mbox{\hyperlink{array-list_8c_a8da0eb9133b9b1821cfa6811d88f4259}{list\_get}}(it, i-\/1));}
+\DoxyCodeLine{64     \}}
+\DoxyCodeLine{65     \mbox{\hyperlink{array-list_8c_a1ec39ae5962d70f4484c0b656956fbb5}{list\_set}}(it, pos, elmt);}
+\DoxyCodeLine{66     \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{67 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{array-list_8c_a5eb5f590f52fa4763c75eabcda9abe36}\label{array-list_8c_a5eb5f590f52fa4763c75eabcda9abe36}} 
+\index{array-\/list.c@{array-\/list.c}!list\_prepend@{list\_prepend}}
+\index{list\_prepend@{list\_prepend}!array-\/list.c@{array-\/list.c}}
+\doxysubsubsection{\texorpdfstring{list\_prepend()}{list\_prepend()}}
+{\footnotesize\ttfamily int list\+\_\+prepend (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structlist__t}{list\+\_\+t}} $\ast$}]{,  }\item[{void $\ast$}]{ }\end{DoxyParamCaption})}
+
+
+
+Ajoute un élément en début de liste. 
+
+\begin{DoxyReturn}{Returns}
+0 en cas de problème, 1 sinon 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{69                                         \{}
+\DoxyCodeLine{70     \textcolor{keywordflow}{return} \mbox{\hyperlink{array-list_8c_ab3e47ea7db86a9f33d93fca5a25b87cc}{list\_insert}}(it, 0, elmt);}
+\DoxyCodeLine{71 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{array-list_8c_a1ec39ae5962d70f4484c0b656956fbb5}\label{array-list_8c_a1ec39ae5962d70f4484c0b656956fbb5}} 
+\index{array-\/list.c@{array-\/list.c}!list\_set@{list\_set}}
+\index{list\_set@{list\_set}!array-\/list.c@{array-\/list.c}}
+\doxysubsubsection{\texorpdfstring{list\_set()}{list\_set()}}
+{\footnotesize\ttfamily void list\+\_\+set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structlist__t}{list\+\_\+t}} $\ast$}]{,  }\item[{int}]{,  }\item[{void $\ast$}]{ }\end{DoxyParamCaption})}
+
+
+
+remplace l\textquotesingle{}élément à la position donnée par l\textquotesingle{}élément donné 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{50                                                  \{}
+\DoxyCodeLine{51     it-\/>\mbox{\hyperlink{structlist__t_a50b00b979c754b66e735689d37b1fa4d}{element}}[pos] = element;}
+\DoxyCodeLine{52 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{array-list_8c_adcfa11f7eafb9f7562fba20f0d7f4e2a}\label{array-list_8c_adcfa11f7eafb9f7562fba20f0d7f4e2a}} 
+\index{array-\/list.c@{array-\/list.c}!list\_size@{list\_size}}
+\index{list\_size@{list\_size}!array-\/list.c@{array-\/list.c}}
+\doxysubsubsection{\texorpdfstring{list\_size()}{list\_size()}}
+{\footnotesize\ttfamily size\+\_\+t list\+\_\+size (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structlist__t}{list\+\_\+t}} $\ast$}]{ }\end{DoxyParamCaption})}
+
+
+
+revoie la taille de la liste 
+
+\begin{DoxyReturn}{Returns}
+size\+\_\+t 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{54                             \{}
+\DoxyCodeLine{55     \textcolor{keywordflow}{return} it-\/>\mbox{\hyperlink{structlist__t_a5c985284293b9906f913542e36e40b41}{size}};}
+\DoxyCodeLine{56 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{array-list_8c_a086e3f7f2956e50db180c011845cb776}\label{array-list_8c_a086e3f7f2956e50db180c011845cb776}} 
+\index{array-\/list.c@{array-\/list.c}!list\_take@{list\_take}}
+\index{list\_take@{list\_take}!array-\/list.c@{array-\/list.c}}
+\doxysubsubsection{\texorpdfstring{list\_take()}{list\_take()}}
+{\footnotesize\ttfamily void$\ast$ list\+\_\+take (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structlist__t}{list\+\_\+t}} $\ast$}]{,  }\item[{int}]{ }\end{DoxyParamCaption})}
+
+
+
+retourne l\textquotesingle{}élément à la position idc, puis enlève cet élément de la liste 
+
+\begin{DoxyReturn}{Returns}
+void$\ast$ 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{73                                     \{}
+\DoxyCodeLine{74     \textcolor{keywordtype}{void}* elmt = \mbox{\hyperlink{array-list_8c_a8da0eb9133b9b1821cfa6811d88f4259}{list\_get}}(it, pos);}
+\DoxyCodeLine{75 }
+\DoxyCodeLine{76     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = pos; i < it-\/>\mbox{\hyperlink{structlist__t_a5c985284293b9906f913542e36e40b41}{size}}-\/1; i++)\{}
+\DoxyCodeLine{77         it-\/>\mbox{\hyperlink{structlist__t_a50b00b979c754b66e735689d37b1fa4d}{element}}[i] = it-\/>\mbox{\hyperlink{structlist__t_a50b00b979c754b66e735689d37b1fa4d}{element}}[i+1];}
+\DoxyCodeLine{78     \}}
+\DoxyCodeLine{79     it-\/>\mbox{\hyperlink{structlist__t_a5c985284293b9906f913542e36e40b41}{size}}-\/-\/;}
+\DoxyCodeLine{80     \textcolor{keywordflow}{return} elmt;}
+\DoxyCodeLine{81 \}}
+
+\end{DoxyCode}

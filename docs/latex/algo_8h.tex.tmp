@@ -1,0 +1,152 @@
+\hypertarget{algo_8h}{}\doxysection{include/algo.h File Reference}
+\label{algo_8h}\index{include/algo.h@{include/algo.h}}
+{\ttfamily \#include \char`\"{}struct.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+Include dependency graph for algo.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structedge}{edge}} $\ast$ \mbox{\hyperlink{algo_8h_ae3566388dc2dbe7eb6197bbf6b7979e4}{minimum\+Spanning\+Tree}} (\mbox{\hyperlink{structtree}{tree}} $\ast$forest, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Une fonction qui calcule l\textquotesingle{}arbre recouvrant minimal du graphe structure passé en paramètre. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structtree}{tree}} $\ast$ \mbox{\hyperlink{algo_8h_ab0c982f403cbd716f39ace419829a668}{get\+Forest\+Max\+Composante}} (\mbox{\hyperlink{structtree}{tree}} $\ast$forest, size\+\_\+t size, double distmax, size\+\_\+t $\ast$newsize)
+\begin{DoxyCompactList}\small\item\em Get the Forest Max Composante object Renvoie la liste d\textquotesingle{}arbres \char`\"{}forêt\char`\"{} composée de la plus grande composante connexe, paramétrée par la distance distmax. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{algo_8h_ab0c982f403cbd716f39ace419829a668}\label{algo_8h_ab0c982f403cbd716f39ace419829a668}} 
+\index{algo.h@{algo.h}!getForestMaxComposante@{getForestMaxComposante}}
+\index{getForestMaxComposante@{getForestMaxComposante}!algo.h@{algo.h}}
+\doxysubsubsection{\texorpdfstring{getForestMaxComposante()}{getForestMaxComposante()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structtree}{tree}}$\ast$ get\+Forest\+Max\+Composante (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structtree}{tree}} $\ast$}]{forest,  }\item[{size\+\_\+t}]{size,  }\item[{double}]{distmax,  }\item[{size\+\_\+t $\ast$}]{newsize }\end{DoxyParamCaption})}
+
+
+
+Get the Forest Max Composante object Renvoie la liste d\textquotesingle{}arbres \char`\"{}forêt\char`\"{} composée de la plus grande composante connexe, paramétrée par la distance distmax. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em forest} & \\
+\hline
+{\em size} & la taille de forest \\
+\hline
+{\em distmax} & \\
+\hline
+{\em newsize} & pointeur vers la nouvelle taille de la forêt \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+tree$\ast$ 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{136                                                                                         \{}
+\DoxyCodeLine{137     clock\_t start = clock();}
+\DoxyCodeLine{138     \textcolor{keywordtype}{short} composante[size]; \textcolor{comment}{//si l'arbre appartient déjà à une composante}}
+\DoxyCodeLine{139     \textcolor{keywordtype}{size\_t} numberOfVertexHandled = 0;}
+\DoxyCodeLine{140 }
+\DoxyCodeLine{141     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i<size; i++)\{}
+\DoxyCodeLine{142         composante[i] = 0;}
+\DoxyCodeLine{143     \}}
+\DoxyCodeLine{144 }
+\DoxyCodeLine{145     \mbox{\hyperlink{structlist__t}{list\_t}}* composantemax = \mbox{\hyperlink{array-list_8c_a29f30488e60e8e4222c5118d754f0dbb}{list\_create}}();}
+\DoxyCodeLine{146 }
+\DoxyCodeLine{147 }
+\DoxyCodeLine{148     \textcolor{keywordflow}{while} (numberOfVertexHandled < size)\{}
+\DoxyCodeLine{149         \mbox{\hyperlink{structlist__t}{list\_t}}* currentcomposante = \mbox{\hyperlink{array-list_8c_a29f30488e60e8e4222c5118d754f0dbb}{list\_create}}();}
+\DoxyCodeLine{150         \mbox{\hyperlink{array-list_8c_abd5d607adddcc300a324588f12b00ed8}{list\_append}}(currentcomposante, \mbox{\hyperlink{array-list_8c_a7b8af2083784734274bbee9e5c67d34b}{create\_size\_t}}(\mbox{\hyperlink{algo_8c_afda0b5b5cb8bd315ffe91b00cf20abdb}{firstNotHandledVertex}}(composante, size)));}
+\DoxyCodeLine{151         \mbox{\hyperlink{algo_8c_a0c4590f35ac72bce8e6e93c59b120e00}{addVertexes}}(composante, size, *((\textcolor{keywordtype}{size\_t}*)\mbox{\hyperlink{array-list_8c_a8da0eb9133b9b1821cfa6811d88f4259}{list\_get}}(currentcomposante, 0)), forest, distmax, currentcomposante);}
+\DoxyCodeLine{152 }
+\DoxyCodeLine{153         numberOfVertexHandled+=\mbox{\hyperlink{array-list_8c_adcfa11f7eafb9f7562fba20f0d7f4e2a}{list\_size}}(currentcomposante);}
+\DoxyCodeLine{154         \mbox{\hyperlink{display_8c_a550e90e7a5a56b5c11d17a005ac43dee}{loadingBar}}(numberOfVertexHandled, size, clock() -\/ start);}
+\DoxyCodeLine{155         \textcolor{keywordflow}{if} (\mbox{\hyperlink{array-list_8c_adcfa11f7eafb9f7562fba20f0d7f4e2a}{list\_size}}(currentcomposante) > \mbox{\hyperlink{array-list_8c_adcfa11f7eafb9f7562fba20f0d7f4e2a}{list\_size}}(composantemax))\{;}
+\DoxyCodeLine{156             \mbox{\hyperlink{algo_8c_ad93045f895f3eff95932b687479497ee}{copyComposant}}(composantemax, currentcomposante);}
+\DoxyCodeLine{157         \}}
+\DoxyCodeLine{158         \mbox{\hyperlink{array-list_8c_adb3fd6e587db7dbce8703815a8200441}{list\_free}}(currentcomposante);}
+\DoxyCodeLine{159     \}}
+\DoxyCodeLine{160 }
+\DoxyCodeLine{161     \mbox{\hyperlink{structtree}{tree}}* forest2 = malloc(\textcolor{keyword}{sizeof}(*forest2)*\mbox{\hyperlink{array-list_8c_adcfa11f7eafb9f7562fba20f0d7f4e2a}{list\_size}}(composantemax));}
+\DoxyCodeLine{162 }
+\DoxyCodeLine{163     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i<\mbox{\hyperlink{array-list_8c_adcfa11f7eafb9f7562fba20f0d7f4e2a}{list\_size}}(composantemax); i++)\{}
+\DoxyCodeLine{164         \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{structtree}{tree}} = *((\textcolor{keywordtype}{size\_t}*)\mbox{\hyperlink{array-list_8c_a8da0eb9133b9b1821cfa6811d88f4259}{list\_get}}(composantemax, i));}
+\DoxyCodeLine{165         forest2[i] = forest[\mbox{\hyperlink{struct_8h_a434e35ec9d53f159cc82d020517a98bb}{tree}}];}
+\DoxyCodeLine{166     \}}
+\DoxyCodeLine{167     }
+\DoxyCodeLine{168     *newsize = \mbox{\hyperlink{array-list_8c_adcfa11f7eafb9f7562fba20f0d7f4e2a}{list\_size}}(composantemax);}
+\DoxyCodeLine{169     \mbox{\hyperlink{array-list_8c_adb3fd6e587db7dbce8703815a8200441}{list\_free}}(composantemax);}
+\DoxyCodeLine{170     \textcolor{keywordflow}{return} forest2;}
+\DoxyCodeLine{171 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{algo_8h_ae3566388dc2dbe7eb6197bbf6b7979e4}\label{algo_8h_ae3566388dc2dbe7eb6197bbf6b7979e4}} 
+\index{algo.h@{algo.h}!minimumSpanningTree@{minimumSpanningTree}}
+\index{minimumSpanningTree@{minimumSpanningTree}!algo.h@{algo.h}}
+\doxysubsubsection{\texorpdfstring{minimumSpanningTree()}{minimumSpanningTree()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structedge}{edge}}$\ast$ minimum\+Spanning\+Tree (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structtree}{tree}} $\ast$}]{forest,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+
+
+Une fonction qui calcule l\textquotesingle{}arbre recouvrant minimal du graphe structure passé en paramètre. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em forest} & le graphe dont on calcule l\textquotesingle{}arbre \\
+\hline
+{\em size} & la taille du graphe \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arete$\ast$ \+: la liste des arètes constituant l\textquotesingle{}arbre recouvrant minimal 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{25                                                     \{}
+\DoxyCodeLine{26     clock\_t start = clock();}
+\DoxyCodeLine{27     \mbox{\hyperlink{structvertex}{vertex}} tab[size];}
+\DoxyCodeLine{28     \textcolor{keywordtype}{size\_t} sizeOfComposante = 1;}
+\DoxyCodeLine{29     \textcolor{keywordtype}{double} minimumDistance = \mbox{\hyperlink{algo_8c_a16e936a5369064315b9b8ec4d7a5ba3a}{INFINI}};}
+\DoxyCodeLine{30     }
+\DoxyCodeLine{31     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i<size; i++)\{}
+\DoxyCodeLine{32         tab[i].\mbox{\hyperlink{structvertex_a514cfdd1b334916366fb7c03241b6702}{distMin}} = minimumDistance;}
+\DoxyCodeLine{33         tab[i].\mbox{\hyperlink{structvertex_a02e22a2c9888862e832740689849d197}{vertexMin}} = 0;}
+\DoxyCodeLine{34         tab[i].\mbox{\hyperlink{structvertex_abb304730a96e200d85efecb1dc3334ea}{isInComponent}} = 0;}
+\DoxyCodeLine{35     \}}
+\DoxyCodeLine{36     tab[0].\mbox{\hyperlink{structvertex_abb304730a96e200d85efecb1dc3334ea}{isInComponent}} = 1;}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38     \mbox{\hyperlink{structedge}{edge}}* listeOfAretes = malloc((size -\/ 1)*\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structedge}{edge}}));}
+\DoxyCodeLine{39     \textcolor{keywordflow}{if} (listeOfAretes== NULL)\{}
+\DoxyCodeLine{40         fprintf(stderr, \textcolor{stringliteral}{"Allocation error in function arbreRecouvrantMinimal"});}
+\DoxyCodeLine{41         exit(1);}
+\DoxyCodeLine{42     \}}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44     \textcolor{keywordtype}{size\_t} minimumVertex;}
+\DoxyCodeLine{45     \textcolor{keywordtype}{size\_t} lastHandledVertex = 0;}
+\DoxyCodeLine{46     \textcolor{keywordtype}{double} currentDist;}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48     \textcolor{keywordflow}{while}(sizeOfComposante <= size -\/ 1)\{ \textcolor{comment}{//nb aretes <= nsommets -\/ 1}}
+\DoxyCodeLine{49         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i<size; i++)\{ \textcolor{comment}{//sur tous les arbres de la structure sauf le premier}}
+\DoxyCodeLine{50             \textcolor{keywordflow}{if} ( !tab[i].isInComponent)\{ \textcolor{comment}{//sommet pas dans la composante connexe}}
+\DoxyCodeLine{51                 \textcolor{keywordflow}{if} ( (currentDist = \mbox{\hyperlink{fonctions_8c_a069ef6fd0a0890ba4f9548734804118f}{distanceTrees}}(\&forest[i], \&forest[lastHandledVertex])) < tab[i].distMin)\{}
+\DoxyCodeLine{52                     tab[i].\mbox{\hyperlink{structvertex_a514cfdd1b334916366fb7c03241b6702}{distMin}} = currentDist;}
+\DoxyCodeLine{53                     tab[i].\mbox{\hyperlink{structvertex_a02e22a2c9888862e832740689849d197}{vertexMin}} = lastHandledVertex;}
+\DoxyCodeLine{54                 \}}
+\DoxyCodeLine{55             \} }
+\DoxyCodeLine{56         \}}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{58         minimumVertex = \mbox{\hyperlink{algo_8c_ac12979f67142d15820bc04e3965f6076}{vertexDistMin}}(tab, size);          }
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60         listeOfAretes[sizeOfComposante-\/1].\mbox{\hyperlink{structedge_a691a39efbffc566e6d86d01c4858f54a}{tree1}} = \&forest[minimumVertex];}
+\DoxyCodeLine{61         listeOfAretes[sizeOfComposante-\/1].\mbox{\hyperlink{structedge_ab7d029eeb2b522e8f81373450c476741}{tree2}} = \&forest[tab[minimumVertex].\mbox{\hyperlink{structvertex_a02e22a2c9888862e832740689849d197}{vertexMin}}];}
+\DoxyCodeLine{62         sizeOfComposante++;}
+\DoxyCodeLine{63         lastHandledVertex = minimumVertex;}
+\DoxyCodeLine{64         tab[minimumVertex].isInComponent= 1;}
+\DoxyCodeLine{65         \mbox{\hyperlink{display_8c_a550e90e7a5a56b5c11d17a005ac43dee}{loadingBar}}(sizeOfComposante -\/ 1, size -\/ 1, clock() -\/ start);      }
+\DoxyCodeLine{66     \}}
+\DoxyCodeLine{67 }
+\DoxyCodeLine{68     printf(\textcolor{stringliteral}{"\(\backslash\)nCalcul de l'arbre recouvrant minimal terminé \(\backslash\)n"});}
+\DoxyCodeLine{69     \textcolor{keywordflow}{return} listeOfAretes;}
+\DoxyCodeLine{70 \}}
+
+\end{DoxyCode}

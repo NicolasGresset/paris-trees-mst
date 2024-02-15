@@ -1,0 +1,7 @@
+digraph "opt"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{opt\n|+ stat\l+ help\l+ in_path\l+ out_path\l+ span_tree_path\l+ location\l+ limit_value\l+ genus\l+ height\l+ conserve\l+ recharge\l|}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="gestion des options en argument"];
+}
