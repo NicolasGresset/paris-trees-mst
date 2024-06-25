@@ -1,9 +1,0 @@
-digraph "tab_genus"
-{
- // LATEX_PDF_SIZE
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="{tab_genus\n|+ size\l|}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="structure de tableau et taille associée"];
-  Node2 -> Node1 [color="grey25",fontsize="10",style="solid",label=" +genuses" ,arrowhead="odiamond"];
-  Node2 [label="{corres_genus\n|+ genus\l+ id\l|}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structcorres__genus.html",tooltip="structure associant une genre à une identifiant"];
-}
