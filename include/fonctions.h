@@ -2,19 +2,13 @@
 #include "struct.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <tps.h>
 
-#define RAYON 6378137.0
+#define RAYON_TERRE 6378137.0 // exprimé en mètres
 
-/**
- * @brief Cette fonction renvoie la distance en mètres entre deux arbres repérés par leurs coordonnées latitude et longitude
- * 
- * @param tree1 premier arbre à comparer
- * @param tree2 second arbre à comparer
- * @return double 
- * 
- */
-double distanceTrees(tree * tree1, tree * tree2);
+// renvoie le carré de la distance entre deux arbres (en mètres), sans compter le rayon de la terre
+double squaredDistanceTrees(tree * tree1, tree * tree2);
+
+double distanceTrees(tree *tree1, tree *tree2);
 
 
 /**
@@ -31,6 +25,6 @@ double radians(double);
  * @param forest 
  * @param size 
  */
-void projectionTrees(tree* forest, size_t size);
+void equirectangularProjection(forest *forest);
 
 void manageActions(tree* forest, size_t size, edge** MST, opt handlingOptions);

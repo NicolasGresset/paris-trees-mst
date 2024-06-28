@@ -4,14 +4,14 @@
 #include <time.h>
 
 
-/**
- * @brief Une fonction qui permet d'afficher l'arbre recouvrant minimal
- * 
- * @param listeAretes la liste des aretes de l'arbre
- * @param size la taille du graphe (la structure)
- * @param structure la structure de l'arbre de taille size + 1
- */
-void displayTrees(edge* listeAretes, size_t size, tree* structure);
+// /**
+//  * @brief Une fonction qui permet d'afficher l'arbre recouvrant minimal
+//  * 
+//  * @param listeAretes la liste des aretes de l'arbre
+//  * @param size la taille du graphe (la structure)
+//  * @param structure la structure de l'arbre de taille size + 1
+//  */
+// void displayTrees(edge* listeAretes, size_t size, tree* structure);
 
 
 

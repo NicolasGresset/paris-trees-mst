@@ -3,27 +3,25 @@
 #include <stdio.h>
 
 
-
 /**
- * @brief Une fonction qui calcule l'arbre recouvrant minimal du graphe
- * structure passé en paramètre
- * 
- * @param forest le graphe dont on calcule l'arbre
- * @param size la taille du graphe
- * @return arete* : la liste des arètes constituant l'arbre recouvrant 
- * minimal
+ * @brief Compute the minimum spanning tree (MST) for the given forest
+ * considered as a complete graph using Prim's algorithm
+ *
+ * @param forest
+ * @param MST
  */
-edge* minimumSpanningTree(tree* forest, size_t size);
-
+void computeMST(forest *forest, MST *MST);
 
 /**
- * @brief Get the Forest Max Composante object Renvoie la liste d'arbres "forêt" composée de la plus grande composante connexe,
- * paramétrée par la distance distmax
- * 
- * @param forest 
+ * @brief Get the Forest Max Composante object Renvoie la liste d'arbres
+ * "forêt" composée de la plus grande composante connexe, paramétrée par la
+ * distance distmax
+ *
+ * @param forest
  * @param size la taille de forest
- * @param distmax 
+ * @param distmax
  * @param newsize pointeur vers la nouvelle taille de la forêt
- * @return tree* 
+ * @return tree*
  */
-tree* getForestMaxComposante(tree* forest, size_t size, double distmax, size_t* newsize);
+tree *getForestMaxComposante(tree *forest, size_t size, double distmax,
+                             size_t *newsize);

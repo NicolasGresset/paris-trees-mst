@@ -1,30 +1,32 @@
 #include "../include/pile.h"
-#include <stdio.h>
 #include "../include/array-list.h"
+#include <stdlib.h>
 
+struct pile {
+  dynamic_list *list;
+};
 
-pile_t* pile_create(void){
-    return list_create();
+pile *pile_create(void) {
+  pile *pile = malloc(sizeof(*pile));
+  if (pile == NULL)
+    return NULL;
+
+  if ((pile->list = list_create()) == NULL) {
+    free(pile);
+    return NULL;
+  }
+  return pile;
 }
 
-void* pop(pile_t* pile){
-    return list_take(pile, list_size(pile) - 1);
+size_t pop(pile *pile) { return list_pop(pile->list); }
+
+int push(pile *pile, size_t element) {
+  return list_append(pile->list, element);
 }
 
+int is_empty(pile *pile) { return list_size(pile->list) == 0; }
 
-int push(pile_t* pile, void* elm){
-    return list_append(pile, elm);
-}
-
-int is_empty(pile_t* pile){
-    if (list_size(pile) == 0) return 1;
-    return 0;
-}
-
-void pile_free(pile_t* pile){
-    list_free2(pile);
-}
-
-size_t pile_size(pile_t* pile){
-    return list_size(pile);
+void pile_free(pile *pile) {
+  list_free(pile->list);
+  free(pile);
 }

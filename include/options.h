@@ -10,4 +10,4 @@
  * @param options pointeur vers une structure stockant chaque option mise en argument
  * 
  */
-void options(int argc, char ** argv, opt * options);
+void handleCLI(int argc, char ** argv, opt * options);

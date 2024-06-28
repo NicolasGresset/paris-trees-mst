@@ -1,6 +1,5 @@
 #include "../include/display.h"
 #include "../include/struct.h"
-#include <tps.h>
 
 
 #define HEIGHT 800
@@ -15,165 +14,165 @@ void infoDisplay(void){
 }
 
 
-/**
- * @brief Effectue une transformation affine des coordonnées des arbres
- * de la liste forest de taille size, de manière à recadrer les arbres
- * dans la fenêtre de taille WIDTH*HEIGHT, et à prendre compte du zoom
- * et du déplacement avec les flèches
- * 
- * @param forest 
- * @param size 
- * @param zoom 
- * @param left 
- * @param up 
- */
-void scaleTree(tree* forest, size_t size, int zoom, int left, int up){
-    double xmin, xmax, ymin, ymax;
-    getExtremum(forest, size, &xmin, &ymin, &xmax, &ymax);
+// /**
+//  * @brief Effectue une transformation affine des coordonnées des arbres
+//  * de la liste forest de taille size, de manière à recadrer les arbres
+//  * dans la fenêtre de taille WIDTH*HEIGHT, et à prendre compte du zoom
+//  * et du déplacement avec les flèches
+//  * 
+//  * @param forest 
+//  * @param size 
+//  * @param zoom 
+//  * @param left 
+//  * @param up 
+//  */
+// void scaleTree(tree* forest, size_t size, int zoom, int left, int up){
+//     double xmin, xmax, ymin, ymax;
+//     getExtremum(forest, size, &xmin, &ymin, &xmax, &ymax);
 
 
-    double alpha = (WIDTH)/(xmax - xmin )*(1+ 0.02*zoom);
-    double beta = (HEIGHT)/(ymax - ymin )*(1+ 0.02*zoom);
+//     double alpha = (WIDTH)/(xmax - xmin )*(1+ 0.02*zoom);
+//     double beta = (HEIGHT)/(ymax - ymin )*(1+ 0.02*zoom);
 
-    for (size_t i = 0; i<size; i++){
-            forest[i].geoloc.x = (forest[i].geoloc.x - xmin ) * alpha - 10*zoom + 5*left;
-            forest[i].geoloc.y = (forest[i].geoloc.y - ymin ) * beta - 10*zoom + 5*up;
-    }
-    return;
-}
+//     for (size_t i = 0; i<size; i++){
+//             forest[i].position.latitude = (forest[i].position.latitude - xmin ) * alpha - 10*zoom + 5*left;
+//             forest[i].position.longitude = (forest[i].position.longitude - ymin ) * beta - 10*zoom + 5*up;
+//     }
+//     return;
+// }
 
-void displayTrees(edge* edgeList, size_t size, tree* forest){
-    infoDisplay();
+// void displayTrees(edge* edgeList, size_t size, tree* forest){
+//     infoDisplay();
     
-    size--;
-    double x1, x2, y1, y2;
-    tps_createWindow("Arbres de Paris", WIDTH, HEIGHT);
-    tps_background(255, 255, 255);
-    tps_setColor(0, 0, 0);
-    scaleTree(forest, size + 1,0,0,0);
+//     size--;
+//     double x1, x2, y1, y2;
+//     tps_createWindow("Arbres de Paris", WIDTH, HEIGHT);
+//     tps_background(255, 255, 255);
+//     tps_setColor(0, 0, 0);
+//     scaleTree(forest, size + 1,0,0,0);
 
-    for (size_t i = 0; i<size; i++){
-        x1 = edgeList[i].tree1->geoloc.x;
-        y1 = edgeList[i].tree1->geoloc.y;
-        x2 = edgeList[i].tree2->geoloc.x;
-        y2 = edgeList[i].tree2->geoloc.y;
-        tps_drawLine(x1, y1, x2, y2);
-    }
+//     for (size_t i = 0; i<size; i++){
+//         x1 = edgeList[i].tree1->geoloc.x;
+//         y1 = edgeList[i].tree1->geoloc.y;
+//         x2 = edgeList[i].tree2->geoloc.x;
+//         y2 = edgeList[i].tree2->geoloc.y;
+//         tps_drawLine(x1, y1, x2, y2);
+//     }
     
-    int zoom=0;
-    int left=0;
-    int up=0;
-    while(tps_isRunning()){
+//     int zoom=0;
+//     int left=0;
+//     int up=0;
+//     while(tps_isRunning()){
         
-        if(tps_getKeyPressed() == SDLK_p ) {zoom++;}
-        if(tps_getKeyPressed() == SDLK_m ) {zoom--;}
+//         if(tps_getKeyPressed() == SDLK_p ) {zoom++;}
+//         if(tps_getKeyPressed() == SDLK_m ) {zoom--;}
 
-        if(tps_getKeyPressed() == SDLK_LEFT ) {left++;}
-        if(tps_getKeyPressed() == SDLK_RIGHT ) {left--;}
+//         if(tps_getKeyPressed() == SDLK_LEFT ) {left++;}
+//         if(tps_getKeyPressed() == SDLK_RIGHT ) {left--;}
 
-        if(tps_getKeyPressed() == SDLK_UP ) {up++;}
-        if(tps_getKeyPressed() == SDLK_DOWN ) {up--;}
+//         if(tps_getKeyPressed() == SDLK_UP ) {up++;}
+//         if(tps_getKeyPressed() == SDLK_DOWN ) {up--;}
         
 
-        tps_background(255, 255, 255);
-        scaleTree(forest, size + 1,zoom,left,up);
-        for (size_t i = 0; i<size; i++){
-            x1 = edgeList[i].tree1->geoloc.x;
-            y1 = edgeList[i].tree1->geoloc.y;
-            x2 = edgeList[i].tree2->geoloc.x;
-            y2 = edgeList[i].tree2->geoloc.y;
-            tps_drawLine(x1, y1, x2, y2);
-        }
+//         tps_background(255, 255, 255);
+//         scaleTree(forest, size + 1,zoom,left,up);
+//         for (size_t i = 0; i<size; i++){
+//             x1 = edgeList[i].tree1->geoloc.x;
+//             y1 = edgeList[i].tree1->geoloc.y;
+//             x2 = edgeList[i].tree2->geoloc.x;
+//             y2 = edgeList[i].tree2->geoloc.y;
+//             tps_drawLine(x1, y1, x2, y2);
+//         }
         
-        tps_render();
-    }    
-    tps_closeWindow();
-    return;
-}
+//         tps_render();
+//     }    
+//     tps_closeWindow();
+//     return;
+// }
 
 
 
 
-/**
- * @brief Renvoie le champ geoloc.x minimum de la liste forest de taille size
- * 
- * @param forest 
- * @param size 
- * @return double 
- */
-double minX(tree* forest, size_t size){
-    size_t i = 0;
-    double distMin = forest[i].geoloc.x;
+// /**
+//  * @brief Renvoie le champ geoloc.x minimum de la liste forest de taille size
+//  * 
+//  * @param forest 
+//  * @param size 
+//  * @return double 
+//  */
+// double minX(tree* forest, size_t size){
+//     size_t i = 0;
+//     double distMin = forest[i].position.latitude;
 
-    for (i = 1; i<size; i++){
-        if (forest[i].geoloc.x < distMin) distMin = forest[i].geoloc.x;
-    }
+//     for (i = 1; i<size; i++){
+//         if (forest[i].position.latitude < distMin) distMin = forest[i].position.latitude;
+//     }
 
-    return distMin;
-}
+//     return distMin;
+// }
 
-/**
- * @brief Renvoie le champ geoloc.y minimum de la liste forest de taille size
- * 
- * @param forest 
- * @param size 
- * @return double 
- */
-double minY(tree* forest, size_t size){
-    size_t i = 0;
-    double distMin = forest[i].geoloc.y;
+// /**
+//  * @brief Renvoie le champ geoloc.y minimum de la liste forest de taille size
+//  * 
+//  * @param forest 
+//  * @param size 
+//  * @return double 
+//  */
+// double minY(tree* forest, size_t size){
+//     size_t i = 0;
+//     double distMin = forest[i].position.longitude;
 
-    for (i = 1; i<size; i++){
-        if (forest[i].geoloc.y < distMin) distMin = forest[i].geoloc.y;
-    }
+//     for (i = 1; i<size; i++){
+//         if (forest[i].position.longitude < distMin) distMin = forest[i].position.longitude;
+//     }
 
-    return distMin;
-}
+//     return distMin;
+// }
 
-/**
- * @brief Renvoie le champ geoloc.x maximum de la liste forest de taille size
- * 
- * @param forest 
- * @param size 
- * @return double 
- */
-double maxX(tree* forest, size_t size){
-    size_t i = 0;
-    double distMax = forest[i].geoloc.x;
+// /**
+//  * @brief Renvoie le champ geoloc.x maximum de la liste forest de taille size
+//  * 
+//  * @param forest 
+//  * @param size 
+//  * @return double 
+//  */
+// double maxX(tree* forest, size_t size){
+//     size_t i = 0;
+//     double distMax = forest[i].position.latitude;
 
-    for (i = 1; i<size; i++){
-        if (forest[i].geoloc.x > distMax) distMax = forest[i].geoloc.x;
-    }
+//     for (i = 1; i<size; i++){
+//         if (forest[i].position.latitude > distMax) distMax = forest[i].position.latitude;
+//     }
 
-    return distMax;
-}
+//     return distMax;
+// }
 
-/**
- * @brief Renvoie le champ geoloc.y maximum de la liste forest de taille size
- * 
- * @param forest 
- * @param size 
- * @return double 
- */
-double maxY(tree* forest, size_t size){
-    size_t i = 0;
-    double distMax = forest[i].geoloc.y;
+// /**
+//  * @brief Renvoie le champ geoloc.y maximum de la liste forest de taille size
+//  * 
+//  * @param forest 
+//  * @param size 
+//  * @return double 
+//  */
+// double maxY(tree* forest, size_t size){
+//     size_t i = 0;
+//     double distMax = forest[i].position.longitude;
 
-    for (i = 1; i<size; i++){
-        if (forest[i].geoloc.y > distMax) distMax = forest[i].geoloc.y;
-    }
+//     for (i = 1; i<size; i++){
+//         if (forest[i].position.longitude > distMax) distMax = forest[i].position.longitude;
+//     }
 
-    return distMax;
-}
+//     return distMax;
+// }
 
 
-void getExtremum(tree* forest, size_t size, double* minimumX,
-double* minimumY, double* maximumX, double* maximumY){
-    *minimumX = minX(forest, size);
-    *minimumY = minY(forest, size);
-    *maximumX = maxX(forest, size);
-    *maximumY = maxY(forest, size);
-}
+// void getExtremum(tree* forest, size_t size, double* minimumX,
+// double* minimumY, double* maximumX, double* maximumY){
+//     *minimumX = minX(forest, size);
+//     *minimumY = minY(forest, size);
+//     *maximumX = maxX(forest, size);
+//     *maximumY = maxY(forest, size);
+// }
 
 void loadingBar(int current, int total, clock_t delta){
     static double previoustime = 0;

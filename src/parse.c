@@ -1,335 +1,262 @@
-#include <math.h>
+#include "../include/parse.h"
+#include "../include/struct.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <signal.h>
-#include "../include/parse.h"
-#include "../include/struct.h"
-#include "../include/manageSIGINT.h"
-#include "../include/display.h"
 
+#define MAGIC_NUMBER 13
+#define MAGIC_COOKIE "NICOLASETINES"
 
+#include "../include/erreur.h"
 
-int genusKnown(char * genus, char * id, tab_genus * tab_corres){
+// pour stocker les genres de manière plus optimisée, on décide d'établir une
+// table d'indexation à chaque genre est associé un identifiant (la première
+// fois qu'il a été rencontré) ces corrrespondances seront stockées dans un
+// fichier texte
 
-    for(int i=0;i<tab_corres->size;i++){
-        if(strcmp(genus,tab_corres->genuses[i].genus) == 0){ *id = tab_corres->genuses[i].id; return 1;}
+/* Given a certain genus, it returns the index of the genus (might evenutally
+ * add it at the end of the array if it doesn"t exist yet)
+ */
+size_t proceedGenus(const char *genus, tab_genus *tab_corres) {
+  size_t i = 0;
+  for (i = 0; i < tab_corres->size; i++) {
+    if (!strcmp(genus, tab_corres->genuses[i])) {
+      return i;
     }
-    return 0;
+  }
+  memcpy(tab_corres->genuses[tab_corres->size], genus, strlen(genus) + 1);
+  tab_corres->size++;
+  return tab_corres->size - 1;
 }
 
-void genusId(char * genus, char * id, tab_genus * tab_corres){
+static void getGenus(char **current, tree *tree, tab_genus *genus_save_tab) {
+  (*current)++; // skipping the first comma
+  char genus[MAX_GENUS_NAME_SIZE + 1];
+  memset(genus, 0, MAX_GENUS_NAME_SIZE + 1);
 
-    int isInTab = genusKnown(genus,id,tab_corres);
+  size_t i = 0;
+  while ((*current)[i] != ';') {
+    genus[i] = (*current)[i];
+    i++;
+  }
+  genus[i] = '\0';
 
-    if(isInTab == 0){
-        tab_corres->size+= 1;
-        tab_corres->genuses[tab_corres->size-1].id = tab_corres->size - 1;
-        *id = tab_corres->size - 1;;
-        strcpy(tab_corres->genuses[tab_corres->size-1].genus,genus);
-    }
+  tree->genus = proceedGenus(genus, genus_save_tab);
+  (*current) += i - 1;
 }
 
-void getGenus(char* line, tree * tree, tab_genus * tab_corres){
-    int cursor = 0;
-    int count = 0;
-    int count_semi_colon = 0;
-
-    char * genustree = malloc(30);
-    if(genustree == NULL) { exit(15); }
-
-    while (count_semi_colon != 9){
-        if (line[cursor] == ';') { count_semi_colon++; }
-        cursor++;
-    }
-    
-    while (line[cursor] != ';'){
-        genustree[count] = line[cursor];
-        count++;
-        cursor++;
-    }
-    genustree[count] = '\0';
-    
-    char id;
-    genusId(genustree,&id,tab_corres);
-    tree->genus = id;
-
-    free(genustree);
+inline static void getHeight(char **current, tree *tree) {
+  tree->height = atoi(*current);
 }
 
-void getHeight(char* line, tree * tree){
-    int cursor = 0;
-    int count = 0;
-    int count_semi_colon = 0;
+#define POSITION_X_SIZE 17
 
-    char * height_tree = malloc(5);
-    if(height_tree == NULL) { exit(15); }
-
-    while (count_semi_colon != 13){
-        if (line[cursor] == ';') { count_semi_colon++; }
-        cursor++;
-    }
-
-    while (line[cursor] != ';' && count < 4){
-        height_tree[count] = line[cursor];
-        count++;
-        cursor++;
-    }
-    height_tree[count] = '\0';
-
-    tree->height = (short)atoi(height_tree);
-    free(height_tree);
+static void getPosition(char **current, tree *tree) {
+  (*current)++; // skipping the first comma
+  char posX[POSITION_X_SIZE + 1];
+  memccpy(posX, *current, ',', POSITION_X_SIZE);
+  posX[POSITION_X_SIZE] = '\0';
+  tree->position.coord_1.latitude = atof(posX);
+  tree->position.coord_2.longitude = atof(*current + POSITION_X_SIZE + 1);
 }
 
-void getposX(char* line, tree * tree){
-    int cursor = 0;
-    int count = 0;
-    int count_semi_colon = 0;
-    char * posx = malloc(25);
-    if(posx == NULL) { exit(15); }
+#define MAX_LINE_SIZE 500 // arbitraty value that seems reasonable
 
-    while (count_semi_colon != 16){
-        if (line[cursor] == ';') { count_semi_colon++; }
-        cursor++;
+static void parseCSVLine(char *line, tree *tree, tab_genus *genus_save_tab) {
+  char *current = line;
+  int count_semi_colon = 0;
+  while (*current != '\n') {
+    if (*current == ';') {
+      count_semi_colon++;
     }
-
-    while (line[cursor] != ','){
-        posx[count] = line[cursor];
-        count++;
-        cursor++;
+    if (count_semi_colon == 9) {
+      getGenus(&current, tree, genus_save_tab);
     }
-    posx[count] = '\0';
-
-    tree->geoloc.x = atof(posx);
-    free(posx);
+    if (count_semi_colon == 13) {
+      getHeight(&current, tree);
+    }
+    if (count_semi_colon == 16) {
+      getPosition(&current, tree);
+      return; // exiting earlier because we don't need to parse the rest of
+              // the line
+    }
+    current++;
+  }
 }
 
-void getposY(char* line, tree * tree){
-    int cursor = 0;
-    int count = 0;
-    int count_semi_colon = 0;
+static void parseCSVFile(FILE *file, forest *forest,
+                         tab_genus *genus_save_tab) {
+  printf("Parsing csv file\n");
 
-    char * posy = malloc(25);
-    if(posy == NULL) { exit(15); }
+  char line[MAX_LINE_SIZE + 1];
+  forest->size = -1;
+  while (fgets(line, MAX_LINE_SIZE, file) != NULL) {
+    forest->size++;
+  }
+  forest->trees = malloc(forest->size * sizeof(tree));
+  rewind(file);
 
-    while (count_semi_colon != 15){
-        if (line[cursor] == ';') { count_semi_colon++; }
-        cursor++;
-    }
+  if (fgets(line, MAX_LINE_SIZE, file) == NULL) {
+    fprintf(stderr, "File is only one line long, strange, aborting\n");
+    exit(EXIT_FAILURE);
+  }
 
-    while (line[cursor] != ','){ cursor++; }
-    cursor++;
+  char *current = line;
+  size_t i = 0;
+  while (fgets(line, MAX_LINE_SIZE, file) != NULL) {
+    parseCSVLine(current, &forest->trees[i], genus_save_tab);
+    i++;
+  }
 
-    while (line[cursor] != '\n' && count<18){
-        posy[count] = line[cursor];
-        count++;
-        cursor++;
-    }
-    posy[count] = '\0';
-
-    tree->geoloc.y = atof(posy);
-    free(posy);
+  printf("Data has been succesfully read\n");
 }
 
+static void saveToBinaryFile(forest *forest, const char *file_path) {
+  FILE *out;
+  CHK((out = fopen(file_path, "wb")) == NULL);
 
-void parseFile(char* file, tree * forest, size_t numberoflines, tab_genus* tab){
+  // write header
+  if (fwrite(MAGIC_COOKIE, MAGIC_NUMBER, 1, out) != 1) {
+    exit(EXIT_FAILURE);
+  }
 
-    printf("Parsing csv file\n");
+  // write number of trees
+  if (fwrite(&forest->size, sizeof(forest->size), 1, out) != 1) {
+    exit(EXIT_FAILURE);
+  }
 
-    FILE* in = fopen(file, "r");
-    if (in == NULL){
-        fprintf(stderr, "Unable to open the file in parseFile %s\n", file);
-        exit(16);
-    }
+  // write trees informations
+  if (fwrite(forest->trees, sizeof(tree), forest->size, out) != forest->size) {
+    exit(EXIT_FAILURE);
+  }
 
-    char * line = malloc(500*sizeof(char));
-    if(line == NULL) { exit(15); }
-    
-    size_t line_number = 0;
+  printf("Conversion to binary format ended succesfully\n");
+  CHK(fclose(out));
+}
 
-    if(fgets(line, 500, in) == NULL) { exit(50); } //on écrase la première ligne
-    
+void parseFromBinaryFile(const char *file_path, forest *forest) {
+  printf("Parsing from binary file\n");
+  FILE *in;
+  CHK((in = fopen(file_path, "rb")) == NULL);
+  // todo check return value
 
-    while ( line_number < numberoflines - 1){ //pour chaque ligne donc chaque arbre
-        if(fgets(line, 500, in) == NULL) { exit(50); }
-        
-        getGenus(line, &forest[line_number],tab);
-        getHeight(line, &forest[line_number]);
-        getposX(line, &forest[line_number]);
-        getposY(line, &forest[line_number]);
-        line_number++;
-    }
+  // header has been checked previously so we can just skip it
+  fseek(in, MAGIC_NUMBER, SEEK_SET);
 
-    free(line);
-    if(fclose(in) != 0) {exit(17);}
-    printf("Data has been succesfully read\n");
+  // read number of trees
+  if (fread(&forest->size, sizeof(forest->size), 1, in) != 1) {
+    exit(EXIT_FAILURE);
+  }
+
+  // allocate memory for trees
+  forest->trees = malloc(forest->size * sizeof(tree));
+
+  // read trees informations
+  if (fread(forest->trees, sizeof(tree), forest->size, in) != forest->size) {
+    exit(EXIT_FAILURE);
+  }
+
+  if (fclose(in) != 0) {
+    raler("fclose", __FILE__, __LINE__);
+    exit(EXIT_FAILURE);
+  }
+  printf("Data was succesfully read from BinaryFile\n");
+}
+
+void saveGenusCorrespondance(const char *file_path, tab_genus *tab) {
+  FILE *out;
+  CHK((out = fopen(file_path, "w")) == NULL);
+
+  // write number of genuses
+  fprintf(out, "%zu\n", tab->size);
+
+  for (size_t i = 0; i < tab->size; i++) {
+    fprintf(out, "%s\n", tab->genuses[i]);
+  }
+
+  CHK(fclose(out) != 0);
+}
+
+static int isBinary(FILE *file) {
+  char line[MAGIC_NUMBER + 1];
+  if (fread(line, MAGIC_NUMBER, 1, file) != 1) {
+    exit(EXIT_FAILURE);
+  }
+  line[MAGIC_NUMBER] = 0;
+  return !(strcmp(line, MAGIC_COOKIE));
+}
+
+void writeEdges(edge *MST, size_t size, opt handlingOptions) {
+
+  if (handlingOptions.span_tree_path == NULL) {
     return;
+  }
+
+  FILE *out = fopen(handlingOptions.span_tree_path, "w");
+  if (out == NULL) {
+    fprintf(stderr, "Unable to open %s in function writeEdges\n",
+            handlingOptions.span_tree_path);
+    exit(16);
+  }
+
+  size_t nbTrees = size;
+  fwrite(&nbTrees, sizeof(size_t), 1, out);
+
+  // for (size_t i = 0; i < size; i++) {
+  //   fwrite(&MST[i].tree1, sizeof(MST[i].tree1), 1, out);
+  //   fwrite(&MST[i].tree2, sizeof(MST[i].tree2), 1, out);
+  // }
+
+  if (fclose(out) != 0) {
+    exit(17);
+  }
 }
 
-void binaryFile(tree * forest, size_t size, char * save){
+void restoreGenus(const char *file_path, forest *forest, tab_genus *tab) {
+  FILE *in;
+  CHK((in = fopen(file_path, "r")) == NULL);
 
-    sigset_t masked;
-    sigset_t old;
-    sigset_t pending;
-    struct sigaction ignore;
-    
-    sigIntitialise(&masked,&old);
+  // get number of genuses
+  fread(&tab->size, sizeof(tab->size), 1, in);
 
-    FILE* out = fopen(save, "wb");
-    if (out == NULL){
-        fprintf(stderr, "Unable to open the file in binaryFile %s\n", save);
-        exit(16);
-    }
+  // get genuses
+  for (size_t i = 0; i < tab->size; i++) {
+    fgets(tab->genuses[i], MAX_GENUS_NAME_SIZE, in);
+    tab->genuses[i][strlen(tab->genuses[i]) - 1] = 0; // removing the \n
+  }
 
-    int nbTrees = size - 1;
-    fwrite(&nbTrees, sizeof(nbTrees), 1, out);
+  // restore genuses
+  for (size_t i = 0; i < forest->size; i++) {
+    forest->trees[i].genus =
+        proceedGenus(tab->genuses[forest->trees[i].genus], tab);
+  }
 
-    char * header = "NICOLASETINES";
-    
-    if(fwrite(header, 13, 1, out)!=1){ exit(51); }
-    
-
-    for (size_t i = 0; i<size -1; i++){
-        if(fwrite(&forest[i], sizeof(forest[i]), 1, out)!=1){ exit(51); }
-    }
-
-    sigHandle(&ignore,&pending,&old);
-
-    printf("Conversion to binary format ended succesfully\n");
-    if(fclose(out) != 0) {exit(17);}
- 
+  CHK(fclose(in) != 0);
 }
 
-void parseFromBinaryFile(char * file, tree * forest, size_t numberoflines){
+void loadAndParseFile(opt *option, forest *forest) {
+  FILE *in;
+  CHK((in = fopen(option->in_path, "r")) == NULL);
 
-    printf("Parsing binary file\n");
-
-    FILE* in = fopen(file, "rb");
-    if(in == NULL) {
-        fprintf(stderr, "Unable to open the file in binaryFile %s\n", file);
-        exit(16);
+  tab_genus genus_save_tab;
+  memset(&genus_save_tab, 0, sizeof(tab_genus));
+  if (isBinary(in)) {
+    if (option->genus_recharge_path == NULL) {
+      fprintf(stderr, "You used a binary file to load data but did not specify "
+                      "any gender correspondance table\n");
+      exit(EXIT_FAILURE);
     }
+    parseFromBinaryFile(option->in_path, forest);
+    restoreGenus(option->genus_recharge_path, forest, &genus_save_tab);
+    CHK(fclose(in) != 0);
+    return;
+  }
 
-    char lineIgnore[sizeof(int)];
-    if(fread(lineIgnore, sizeof(int), 1, in) != 1) { exit(52);}
+  // else : file is csv
+  parseCSVFile(in, forest, &genus_save_tab);
+  saveToBinaryFile(forest, option->out_path);
+  saveGenusCorrespondance(option->genus_conserve_path, &genus_save_tab);
 
-    char lineIgnore2[13];
-    if(fread(lineIgnore2, 13, 1, in) != 1) { exit(52);}
-    
-    int i=0;
-    size_t nbBlocks=0;
-
-    while(nbBlocks != numberoflines){
-        
-        if(fread(&(forest[i]), sizeof(forest[i]), 1, in) != 1) {exit(52);}
-        i++;
-        nbBlocks++;
-    }
-
-    printf("Data was succesfully read from BinaryFile\n");
+  CHK(fclose(in) != 0);
 }
-
-void SaveStructGenus(opt handlingOptions,tab_genus tab){
-
-    FILE * saveStruct = fopen(handlingOptions.conserve,"w");
-    if(saveStruct == NULL){ 
-        fprintf(stderr, "Unable to open the file in SaveStructGenus %s\n", handlingOptions.conserve);
-        exit(16);
-    }
-
-    for(int i=0;i<tab.size;i++){
-        fprintf(saveStruct,"%d;",tab.genuses[i].id);
-        fprintf(saveStruct,"%s\n",tab.genuses[i].genus);  
-    }
-    
-    if(fclose(saveStruct) != 0){ exit(52); }
-
-}
-
-int isBinary(char * file){
-
-    FILE * in = fopen(file,"r");
-    if(in == NULL){ 
-        fprintf(stderr, "Unable to open the file in binaryFile %s\n", file);
-        exit(16);
-    }
-
-    int size;
-    if(fread(&size,sizeof(size),1,in) != 1) { exit(52); }
-
-    char line[13];
-    if(fread(line,13,1,in) != 1) { exit(52); }
-    line[13] = 0;
-
-    if(strcmp(line,"NICOLASETINES") == 0) { return size;}
-
-    if(fclose(in) != 0) { exit(17); }
-    return 0;
-}
-
-void writeEdges(edge * MST, size_t size,opt handlingOptions){
-
-    if(handlingOptions.span_tree_path == NULL){ return; }
-
-    FILE* out = fopen(handlingOptions.span_tree_path, "w");
-    if (out == NULL){
-        fprintf(stderr, "Unable to open %s in function writeEdges\n", handlingOptions.span_tree_path);
-        exit(16);
-    }
-
-
-    size_t nbTrees = size;
-    fwrite(&nbTrees,sizeof(size_t),1,out);
-
-    for (size_t i = 0; i<size; i++){
-        fwrite(&MST[i].tree1,sizeof(MST[i].tree1),1,out);
-        fwrite(&MST[i].tree2,sizeof(MST[i].tree2),1,out);
-    }
-
-
-    if(fclose(out) != 0) { exit(17); }
-
-}
-
-void handlingFile(opt handlingOptions, tree * tree, int * nbTrees){
-
-    if(handlingOptions.in_path == NULL) {printf("input path needed.\n");exit(1);}
-    if(handlingOptions.out_path == NULL) {printf("output path needed.\n");exit(1);}
-
-
-    tab_genus tab = {.size=0};
-
-    int size=0;
-    char line[1000];
-
-    FILE * in = fopen(handlingOptions.in_path,"r");
-    if(in == NULL) {
-        fprintf(stderr, "Unable to open the file in binaryFile %s\n", handlingOptions.in_path);
-        exit(16);
-    }
-
-    while(fgets(line,1000,in) != NULL){ size ++; }
-
-
-    if(isBinary(handlingOptions.in_path) == 0){
-
-        if(handlingOptions.conserve == NULL){ printf("A path to save the gender correspondance table is needed with -c (to get more help : -a)\n"); exit(1);}
-        parseFile(handlingOptions.in_path,tree,size,&tab);
-        binaryFile(tree,size,handlingOptions.out_path);
-        SaveStructGenus(handlingOptions,tab);
-        *nbTrees=size -1;
-
-    }else{
-        if(handlingOptions.recharge == NULL){ printf("A path to load the gender correspondance table is needed with -r (to get more help : -a)\n"); exit(1);}
-        parseFromBinaryFile(handlingOptions.in_path,tree,isBinary(handlingOptions.in_path));
-        *nbTrees=isBinary(handlingOptions.in_path);
-    }
-
-    
-    if(fclose(in) != 0 ){ exit(17); }
-
-}
-
-
-

@@ -1,64 +1,55 @@
 #include "../include/fonctions.h"
-#include <math.h>
 #include "../include/algo.h"
-#include "../include/stat.h"
 #include "../include/display.h"
 #include "../include/parse.h"
+#include "../include/stat.h"
+#include <math.h>
 
-
-/**
- * @brief Get the Mean Longitude object
- * Renvoie la longitude moyenne des arbres de la liste forest de taille size
- * 
- * @param forest 
- * @param size 
- * @return double 
- */
-double getMeanLongitude(tree* forest, size_t size){
-    double meanLongitude = 0;
-    for (size_t i = 0; i<size; i++){
-        meanLongitude += forest[i].geoloc.y;
-    }
-    return meanLongitude/size;
+void getMeanCoordinates(double *meanLatitude, double *meanLongitude,
+                        forest *forest) {
+  double sumLatitude = 0;
+  double sumLongitude = 0;
+  for (size_t i = 0; i < forest->size; i++) {
+    sumLatitude += forest->trees[i].position.coord_1.latitude;
+    sumLongitude += forest->trees[i].position.coord_2.longitude;
+  }
+  *meanLatitude = sumLatitude / forest->size;
+  *meanLongitude = sumLongitude / forest->size;
 }
 
-/**
- * @brief Get the Mean Latitude object
- * Renvoie la latitude moyenne des arbres de la liste forest de taille size
- * 
- * @param forest 
- * @param size 
- * @return double 
- */
-double getMeanLatitude(tree* forest, size_t size){
-    double meanLatitude = 0;
-    for (size_t i = 0; i<size; i++){
-        meanLatitude += forest[i].geoloc.x;
-    }
-    return meanLatitude/size;
+inline void setNewCoordinates(tree *tree, double phi0, double lambda0,
+                              double cosphi0) {
+  tree->position.coord_1.x =
+      cosphi0 * (tree->position.coord_1.latitude - lambda0) * M_PI / 180;
+  tree->position.coord_2.y =
+      (tree->position.coord_2.longitude - phi0) * M_PI / 180;
 }
 
+// maybe it's not the best one, to be tested
+// c'est basiquement un changement d'origine et une déformation sur le premier
+// axe
+void equirectangularProjection(forest *forest) {
+  double phi0, lambda0;
+  getMeanCoordinates(&phi0, &lambda0, forest);
+  double cosphi0 = cos(phi0 * M_PI / 180);
 
-void projectionTrees(tree* forest, size_t size){
-    double phi0 = getMeanLatitude(forest, size);
-    double lambda0 = getMeanLongitude(forest, size);
-    double cosphi0 = cos(phi0*M_PI/180);
-
-    for(size_t i = 0; i<size; i++){
-        double oldx = forest[i].geoloc.x;
-        forest[i].geoloc.x = cosphi0*(forest[i].geoloc.y - lambda0)*M_PI/180;
-        forest[i].geoloc.y = (oldx - phi0)*M_PI/180;
-    }
+  for (size_t i = 0; i < forest->size; i++) {
+    setNewCoordinates(&forest->trees[i], phi0, lambda0, cosphi0);
+  }
 }
 
-double distanceTrees(tree* tree1, tree* tree2){
-	return ((pow(tree1->geoloc.x - tree2->geoloc.x, 2) + pow(tree1->geoloc.y - tree2->geoloc.y, 2)));
+double squaredDistanceTrees(tree *tree1, tree *tree2) {
+  return ((pow(tree1->position.coord_1.x - tree2->position.coord_1.x, 2) +
+           pow(tree1->position.coord_2.y - tree2->position.coord_2.y, 2)));
 }
 
+double distanceTrees(tree *tree1, tree *tree2) {
+  return RAYON_TERRE * sqrt(squaredDistanceTrees(tree1, tree2));
+}
 
-void manageActions(tree* forest, size_t size, edge** MST, opt handlingOptions){
-    *MST = minimumSpanningTree(forest, size);
-    stat(handlingOptions, *MST, size, forest);
-    displayTrees(*MST, size, forest);
-    writeEdges(*MST, size - 1, handlingOptions);
+void manageActions(tree *forest, size_t size, edge **MST, opt handlingOptions) {
+  //*MST = minimumSpanningTree(forest, size);
+  // stat(handlingOptions, *MST, size, forest);
+  // displayTrees(*MST, size, forest);
+  writeEdges(*MST, size - 1, handlingOptions);
 }

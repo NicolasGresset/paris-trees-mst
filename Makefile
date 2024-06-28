@@ -1,9 +1,9 @@
 CC ?= gcc
-CFLAGS ?= -Wall -g -Wextra -O1
-LDLIBS ?= -lm -ltps -lSDL2 -lSDL2_ttf
+CFLAGS ?= -Wall -g -Wextra -O3
+LDLIBS ?= -lm
 INCLUDE_PATH = ./include
 
-TARGET   =arbres
+TARGET   =main
 
 SRCDIR   = src
 OBJDIR   = obj
@@ -13,6 +13,10 @@ BINDIR   = bin
 SOURCES  := $(wildcard $(SRCDIR)/*.c)
 INCLUDES := $(wildcard $(INCLUDE_PATH)/*.h)
 OBJECTS  := $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+
+TEST_DIR = test
+TEST_SRC = $(TEST_DIR)/test.c
+TEST_BIN = $(TEST_DIR)/test
 
 
 $(BINDIR)/$(TARGET): $(OBJECTS)
@@ -26,6 +30,11 @@ $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
 
 doc:
 	doxygen Doxyfile
+
+test: $(TEST_BIN)
+
+$(TEST_BIN): $(TEST_SRC)
+	$(CC) $(CFLAGS) -o $(TEST_BIN) $(TEST_SRC)
 
 .PHONY: clean
 clean:

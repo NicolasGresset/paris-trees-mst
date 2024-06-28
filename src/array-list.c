@@ -2,106 +2,64 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct  list_t{
-    void** element;
-    size_t allocated;
-    size_t size;
+#define INITIAL_LIST_SIZE 8
+#define GROWTH_FACTOR 2
+
+struct list {
+  size_t *elements;
+  size_t allocated;
+  size_t size;
 };
 
-list_t* list_create(void){
-    list_t* it = malloc(sizeof(*it));
-    if (it == NULL) return NULL;
+dynamic_list *list_create(void) {
+  dynamic_list *list = malloc(sizeof(*list));
+  if (list == NULL)
+    return NULL;
 
-    it->element = malloc(10*sizeof(it->element[0]));
-    if (it->element == NULL){
-        free(it);
-        return NULL;
-    }
+  list->elements = malloc(INITIAL_LIST_SIZE * sizeof(list->elements[0]));
+  if (list->elements == NULL) {
+    free(list);
+    return NULL;
+  }
 
-    it->allocated = 10;
-    it->size = 0;
-    return it;
+  list->allocated = INITIAL_LIST_SIZE;
+  list->size = 0;
+  return list;
 }
 
-
-int list_append(list_t* it, void* element_to_append){
-    if( it->size < it->allocated){
-        it->element[it->size] = element_to_append;
-        it->size ++;
-        return 1; 
-    }
-
-    void** tmp = realloc(it->element,(it->allocated+15)*sizeof(it->element[0]));
-    if (tmp == NULL){
-        return 0;
-    }
-
-    it->element = tmp;
-    it->allocated += 15; 
-    it->element[it->size] = element_to_append;
-    it->size ++;
+int list_append(dynamic_list *list, size_t element) {
+  if (list->size < list->allocated) {
+    list->elements[list->size] = element;
+    list->size++;
     return 1;
+  }
+
+  size_t *tmp = realloc(list->elements, (list->allocated * GROWTH_FACTOR *
+                                         sizeof(list->elements[0])));
+  if (tmp == NULL) {
+    return 0;
+  }
+  list->elements = tmp;
+  list->allocated *= GROWTH_FACTOR;
+  list->elements[list->size] = element;
+  list->size++;
+  return 1;
 }
 
-void* list_get(list_t* it, int pos){
-    return it->element[pos];
+size_t list_get(dynamic_list *list, int index) { return list->elements[index]; }
+
+void list_set(dynamic_list *list, int index, size_t element) {
+  list->elements[index] = element;
 }
 
-void list_set(list_t* it, int pos, void* element){
-    it->element[pos] = element;
+size_t list_size(dynamic_list *it) { return it->size; }
+
+size_t list_pop(dynamic_list *list) {
+  list->size--;
+  return list->elements[list->size];
 }
 
-void list_set2(list_t* it, int pos, void* element){
-    free(list_get(it, pos));
-    it->element[pos] = element;
-}
-
-size_t list_size(list_t* it){
-    return it->size;
-}
-
-int list_insert(list_t* it, size_t pos, void* elmt){
-
-    if (list_append(it, elmt) == 0) return 0;
-
-    for (size_t i = it->size - 1; i>pos; i--){
-        list_set(it, i, list_get(it, i-1));
-    }
-    list_set(it, pos, elmt);
-    return 1;
-}
-
-int list_prepend(list_t* it, void* elmt){
-    return list_insert(it, 0, elmt);
-}
-
-void* list_take(list_t* it, int pos){
-    void* elmt = list_get(it, pos);
-
-    for (size_t i = pos; i < it->size-1; i++){
-        it->element[i] = it->element[i+1];
-    }
-    it->size--;
-    return elmt;
-}
-
-
-void list_free(list_t* it){
-    for(size_t i = 0; i < list_size(it); i++){
-        free(list_get(it, i));
-    }
-
-    free(it->element);
-    free(it); //modif concernant le projet programmation 
-}
-
-size_t* create_size_t(size_t i){
-  size_t* p = malloc(sizeof(size_t));
-  *p = i;
-  return p;
-}
-
-void list_free2(list_t* it){
-    free(it->element); 
-    free(it);
+void list_free(dynamic_list *list) {
+  free(list->elements);
+  free(list);
 }
