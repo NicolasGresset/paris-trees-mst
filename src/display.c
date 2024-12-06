@@ -191,3 +191,9 @@ void loadingBar(int current, int total, clock_t delta){
         printf("Time left estimated : 0\n");
     }
 }
+
+void displayMST(opt* options, MST* MST, forest* forest){
+    asdl2w_createWindow("MST of Paris", WIDTH, HEIGHT);
+
+    
+}
