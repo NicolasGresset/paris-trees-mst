@@ -17,8 +17,8 @@ void getMeanCoordinates(double *meanLatitude, double *meanLongitude,
   *meanLongitude = sumLongitude / forest->size;
 }
 
-inline void setNewCoordinates(tree *tree, double phi0, double lambda0,
-                              double cosphi0) {
+static inline void setNewCoordinates(tree *tree, double phi0, double lambda0,
+                                     double cosphi0) {
   tree->position.coord_1.x =
       cosphi0 * (tree->position.coord_1.latitude - lambda0) * M_PI / 180;
   tree->position.coord_2.y =

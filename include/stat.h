@@ -1,7 +1,6 @@
 #pragma once
 
-#include <stdio.h>
 #include "struct.h"
+#include <stdio.h>
 
-
-void dumpStats(MST* MST, forest* forest);
+void dumpStats(MST *MST, forest *forest);

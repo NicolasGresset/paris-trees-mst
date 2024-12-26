@@ -86,7 +86,6 @@ typedef struct {
   size_t size;
 } MST;
 
-
 /**
  * @brief structure représentant un sommet pour la fonction minimumSpanningTree
  *

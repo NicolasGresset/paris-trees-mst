@@ -4,13 +4,12 @@
 
 /**
  * @brief Cette fonction écrit dans un fichier l'arbre recouvrant minimal
- * 
+ *
  * @param file Le fichier dans lequel on écrit
  * @param arbre L'arbre recouvrant minimal
  * @param size Sa taille
  */
-void writeEdges(edge * MST, size_t size, opt handlingOptions);
-
+void writeEdges(edge *MST, size_t size, opt handlingOptions);
 
 // load the file parsed in CLI
-void loadAndParseFile(opt *option, forest* forest);
+void loadAndParseFile(opt *option, forest *forest);

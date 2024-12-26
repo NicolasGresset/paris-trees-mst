@@ -3,12 +3,12 @@
 
 typedef struct pile pile;
 
-pile* pile_create(void);
+pile *pile_create(void);
 
-size_t pop(pile* pile);
+size_t pop(pile *pile);
 
-int push(pile* pile, size_t element);
+int push(pile *pile, size_t element);
 
-int is_empty(pile* pile);
+int is_empty(pile *pile);
 
-void pile_free(pile* pile);
+void pile_free(pile *pile);

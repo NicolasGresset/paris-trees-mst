@@ -2,7 +2,6 @@
 #include "struct.h"
 #include <stdio.h>
 
-
 /**
  * @brief Compute the minimum spanning tree (MST) for the given forest
  * considered as a complete graph using Prim's algorithm

@@ -7,14 +7,14 @@
 
 #define INFINI 4000000 // todo modifier par le double maximum
 
-inline void initializeVertexes(vertex *vertexes, size_t size) {
+static inline void initializeVertexes(vertex *vertexes, size_t size) {
   vertexes[0].distanceToComponent = 0;
   for (size_t i = 1; i < size; i++) {
     vertexes[i].distanceToComponent = INFINI;
   }
 }
 
-inline void allocateEdgesMemory(MST *MST, size_t numberofedges) {
+static inline void allocateEdgesMemory(MST *MST, size_t numberofedges) {
   MST->edges = malloc((numberofedges) * sizeof(edge));
   if (MST->edges == NULL) {
     fprintf(stderr, "Allocation error in function computeMST");
@@ -62,7 +62,7 @@ void computeMST(forest *forest, MST *MST) {
   clock_t start = clock();
   printf("Computing MST...\n");
   printf("Projecting trees...\n");
-  equirectangularProjection(forest);
+  // equirectangularProjection(forest);
   printf("Trees projected\n");
 
   vertex vertexes[forest->size];
