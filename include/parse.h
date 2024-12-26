@@ -13,3 +13,11 @@ void writeEdges(edge *MST, size_t size, opt handlingOptions);
 
 // load the file parsed in CLI
 void loadAndParseFile(opt *option, forest *forest);
+
+// testing purposes
+
+#ifdef TEST_BUILD
+
+void getHeight(char **current, tree *tree);
+
+#endif

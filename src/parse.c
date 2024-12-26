@@ -46,7 +46,7 @@ static void getGenus(char **current, tree *tree, tab_genus *genus_save_tab) {
   (*current) += i - 1;
 }
 
-inline static void getHeight(char **current, tree *tree) {
+inline void getHeight(char **current, tree *tree) {
   tree->height = atoi(*current);
 }
 

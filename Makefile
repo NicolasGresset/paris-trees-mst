@@ -1,5 +1,6 @@
 # Project Settings
 debug ?= 0
+test ?= 0
 NAME := main
 SRC_DIR := src
 BUILD_DIR := build
@@ -11,8 +12,19 @@ DOXYGEN := doxygen
 DOXYFILE := Doxyfile
 DOC_DIR := docs
 
+SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
+SRC_LIB_FILES = $(wildcard $(LIB_DIR)/**/*.c)
+HEADER_FILES = $(wildcard $(INCLUDE_DIR)/*.h)
+
 # Generate paths for all object files
-OBJS := $(patsubst %.c,%.o, $(wildcard $(SRC_DIR)/*.c) $(wildcard $(LIB_DIR)/**/*.c))
+# transforms src/src1.c into src/src1.o
+OBJS := $(patsubst %.c,%.o, $(SRC_FILES) $(SRC_LIB_FILES))
+
+# remove main.o from the previous variable
+TEST_OBJS := $(filter-out $(SRC_DIR)/$(NAME).o, $(OBJS))
+
+# transforms tests/main_test.c into tests/main_test.o
+CUNIT_OBJS := $(patsubst %.c,%.o, $(wildcard $(TESTS_DIR)/*.c))
 
 # Compiler settings
 CC := clang
@@ -36,22 +48,33 @@ else
 	CFLAGS := $(CFLAGS) -Oz
 endif
 
+ifeq ($(test), 1)
+	CFLAGS := $(CFLAGS) -DTEST_BUILD
+	LDFLAGS := $(LDFLAGS) -lcunit
+endif
+
 # Targets
 
 # Build executable
-# todo add lint
+# todo add lint as build dependency
 $(NAME): format dir $(OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $(BIN_DIR)/$@ $(patsubst %, build/%, $(OBJS))
+	@echo "Generating main executable"
+	@$(CC) $(CFLAGS) $(LDFLAGS) -o $(BIN_DIR)/$@ $(patsubst %, build/%, $(OBJS))
 
 # Build object files and third-party libraries
-$(OBJS): dir
+$(OBJS): dir $(HEADER_FILES) $(SRC_FILES)
 	@mkdir -p $(BUILD_DIR)/$(@D)
 	@$(CC) $(CFLAGS) -o $(BUILD_DIR)/$@ -c $*.c
 
+$(CUNIT_OBJS): dir
+	@mkdir -p $(BUILD_DIR)/$(@D)
+	@$(CC) $(CFLAGS) -DTEST_BUILD -o $(BUILD_DIR)/$@ -c $*.c
+
 # Run CUnit tests
-test: dir
-	@$(CC) $(CFLAGS) -lcunit -o $(BIN_DIR)/$(NAME)_test $(TESTS_DIR)/*.c
-	@$(BIN_DIR)/$(NAME)_test
+test: dir $(TEST_OBJS) $(CUNIT_OBJS)
+	@echo "Generating cunit test program"
+	@$(CC) $(LDFLAGS) $(CFLAGS) -o $(BIN_DIR)/$(NAME)_test $(patsubst %, build/%, $(TEST_OBJS)) $(patsubst %, build/%, $(CUNIT_OBJS))
+	@valgrind -s --leak-check=full --show-leak-kinds=all $(BIN_DIR)/$(NAME)_test
 
 # Run linter on source directories
 lint:
@@ -64,7 +87,7 @@ format:
 # $(TESTS_DIR)/*
 
 doc: $(DOXYFILE)
-	@echo "Generating documentation..."
+	@echo "Generating documentation"
 	$(DOXYGEN) $(DOXYFILE)
 
 # Run valgrind memory checker on executable
@@ -72,30 +95,6 @@ check: $(NAME)
 	@sudo valgrind -s --leak-check=full --show-leak-kinds=all $(BIN_DIR)/$< --help
 	@sudo valgrind -s --leak-check=full --show-leak-kinds=all $(BIN_DIR)/$< --version
 	@sudo valgrind -s --leak-check=full --show-leak-kinds=all $(BIN_DIR)/$< -v
-
-# Setup dependencies for build and development
-setup:
-	# Update apt and upgrade packages
-	@sudo apt update
-	@sudo DEBIAN_FRONTEND=noninteractive apt upgrade -y
-
-	# Install OS dependencies
-	@sudo apt install -y bash libarchive-tools lsb-release wget software-properties-common gnupg
-
-	# Install LLVM tools required for building the project
-	@wget https://apt.llvm.org/llvm.sh
-	@chmod +x llvm.sh
-	@sudo ./llvm.sh 18
-	@rm llvm.sh
-
-	# Install Clang development tools
-	@sudo apt install -y clang-tools-18 clang-format-18 clang-tidy-18 valgrind bear
-
-	# Install CUnit testing framework
-	@sudo apt install -y libcunit1 libcunit1-doc libcunit1-dev
-
-	# Cleanup
-	@sudo apt autoremove -y
 
 # Setup build and bin directories
 dir:
@@ -107,6 +106,11 @@ clean:
 
 # Run bear to generate compile_commands.json
 bear:
-	bear -- make $(NAME)
+	@bear -- make $(NAME)
 
 .PHONY: lint format check setup dir clean bear
+
+
+
+
+# il faudrait trouver une meilleure manière pour tester les fonctions internes aux fichiers
