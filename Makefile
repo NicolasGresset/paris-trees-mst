@@ -107,6 +107,6 @@ clean:
 
 # Run bear to generate compile_commands.json
 bear:
-	bear --exclude $(LIB_DIR) make $(NAME)
+	bear -- make $(NAME)
 
 .PHONY: lint format check setup dir clean bear

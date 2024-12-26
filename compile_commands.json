@@ -1,0 +1,167 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Oz",
+      "-c",
+      "-o",
+      "build/src/algo.o",
+      "src/algo.c"
+    ],
+    "directory": "/home/nicolas/repos/paris-trees-mst",
+    "file": "/home/nicolas/repos/paris-trees-mst/src/algo.c",
+    "output": "/home/nicolas/repos/paris-trees-mst/build/src/algo.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Oz",
+      "-c",
+      "-o",
+      "build/src/array-list.o",
+      "src/array-list.c"
+    ],
+    "directory": "/home/nicolas/repos/paris-trees-mst",
+    "file": "/home/nicolas/repos/paris-trees-mst/src/array-list.c",
+    "output": "/home/nicolas/repos/paris-trees-mst/build/src/array-list.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Oz",
+      "-c",
+      "-o",
+      "build/src/display.o",
+      "src/display.c"
+    ],
+    "directory": "/home/nicolas/repos/paris-trees-mst",
+    "file": "/home/nicolas/repos/paris-trees-mst/src/display.c",
+    "output": "/home/nicolas/repos/paris-trees-mst/build/src/display.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Oz",
+      "-c",
+      "-o",
+      "build/src/erreur.o",
+      "src/erreur.c"
+    ],
+    "directory": "/home/nicolas/repos/paris-trees-mst",
+    "file": "/home/nicolas/repos/paris-trees-mst/src/erreur.c",
+    "output": "/home/nicolas/repos/paris-trees-mst/build/src/erreur.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Oz",
+      "-c",
+      "-o",
+      "build/src/fonctions.o",
+      "src/fonctions.c"
+    ],
+    "directory": "/home/nicolas/repos/paris-trees-mst",
+    "file": "/home/nicolas/repos/paris-trees-mst/src/fonctions.c",
+    "output": "/home/nicolas/repos/paris-trees-mst/build/src/fonctions.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Oz",
+      "-c",
+      "-o",
+      "build/src/main.o",
+      "src/main.c"
+    ],
+    "directory": "/home/nicolas/repos/paris-trees-mst",
+    "file": "/home/nicolas/repos/paris-trees-mst/src/main.c",
+    "output": "/home/nicolas/repos/paris-trees-mst/build/src/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Oz",
+      "-c",
+      "-o",
+      "build/src/manageSIGINT.o",
+      "src/manageSIGINT.c"
+    ],
+    "directory": "/home/nicolas/repos/paris-trees-mst",
+    "file": "/home/nicolas/repos/paris-trees-mst/src/manageSIGINT.c",
+    "output": "/home/nicolas/repos/paris-trees-mst/build/src/manageSIGINT.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Oz",
+      "-c",
+      "-o",
+      "build/src/options.o",
+      "src/options.c"
+    ],
+    "directory": "/home/nicolas/repos/paris-trees-mst",
+    "file": "/home/nicolas/repos/paris-trees-mst/src/options.c",
+    "output": "/home/nicolas/repos/paris-trees-mst/build/src/options.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Oz",
+      "-c",
+      "-o",
+      "build/src/parse.o",
+      "src/parse.c"
+    ],
+    "directory": "/home/nicolas/repos/paris-trees-mst",
+    "file": "/home/nicolas/repos/paris-trees-mst/src/parse.c",
+    "output": "/home/nicolas/repos/paris-trees-mst/build/src/parse.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Oz",
+      "-c",
+      "-o",
+      "build/src/pile.o",
+      "src/pile.c"
+    ],
+    "directory": "/home/nicolas/repos/paris-trees-mst",
+    "file": "/home/nicolas/repos/paris-trees-mst/src/pile.c",
+    "output": "/home/nicolas/repos/paris-trees-mst/build/src/pile.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Oz",
+      "-c",
+      "-o",
+      "build/src/stat.o",
+      "src/stat.c"
+    ],
+    "directory": "/home/nicolas/repos/paris-trees-mst",
+    "file": "/home/nicolas/repos/paris-trees-mst/src/stat.c",
+    "output": "/home/nicolas/repos/paris-trees-mst/build/src/stat.o"
+  }
+]
